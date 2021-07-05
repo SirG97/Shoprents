@@ -28,7 +28,7 @@
                                 @foreach($shops as $shop)
                                     <tr>
                                         <td scope="row">
-                                            <span class="badge badge-danger">Almost due</span>
+                                            <span class="badge badge-warning">Almost due</span>
                                         </td>
                                         <td scope="row">{{ $shop['name'] }}</td>
                                         <td>{{ $shop['phone'] }}</td>

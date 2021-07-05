@@ -68,6 +68,7 @@ class ShopController extends Controller
     public function show(Shop $shop){
 
         $payments = Payment::where('shop_id', $shop->id)->orderBy('id', 'desc')->paginate(100);
+//dd($shop, $payments);
 
         return view('shop',['shop' => $shop, 'payments' => $payments]);
     }
@@ -77,7 +78,12 @@ class ShopController extends Controller
         return view('expiredshops',['shops' => $shops]);
     }
     public function almostDue(){
-        $shops = Shop::where('next_payment', '<', Carbon::now()->subMonth())->orderBy('id', 'desc')->paginate(100);
+//        $shops = Shop::where('next_payment', '<', Carbon::now()->subMonth())->orderBy('id', 'desc')->paginate(100);
+        $shops = Shop::where([['next_payment', '<', Carbon::now()->addMonth()],
+                                ['next_payment', '>', Carbon::now()->subMonth()],])
+
+
+            ->paginate(15);
         return view('almostexpired',['shops' => $shops]);
     }
 

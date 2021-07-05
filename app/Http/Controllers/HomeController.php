@@ -33,7 +33,8 @@ class HomeController extends Controller
         $revenue = Payment::all()->sum('amount');
         $shops = Shop::where('next_payment', '<', Carbon::now()->addMonth())
             ->orWhere('next_payment', '<', Carbon::now()->subMonth())
-            ->orWhere('next_payment', '=', null)->paginate(15);
+            ->orWhere('next_payment', '=', null)
+            ->paginate(15);
 
         return view('home', ['total_shops' => $total,
                                     'expired_shops' => $expired,

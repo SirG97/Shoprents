@@ -18,8 +18,8 @@ class CreateShopsTable extends Migration
             $table->string('name');
             $table->string('address');
             $table->string('phone');
-            $table->string('last_payment')->nullable();
-            $table->string('next_payment')->nullable();
+            $table->timestamp('last_payment')->nullable();
+            $table->timestamp('next_payment')->nullable();
             $table->boolean('status')->default(0);
             $table->timestamps();
         });

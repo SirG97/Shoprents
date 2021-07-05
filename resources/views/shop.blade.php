@@ -21,16 +21,16 @@
                             <div class="font-weight-bold text-capitalize" style="font-size: 22px">{{$shop->name}}</div>
                             <div class="order-name text-capitalize">Address: {{$shop->address}}</div>
                             <div class="order-name text-capitalize">Phone: {{$shop->phone}}</div>
-                            <div class="order-name ">Last payment: {{$shop->last_payment === null ? 'No Payment yet': \Carbon\Carbon::parse($shop->last_payment)->isoFormat('MMMM Do YYYY, h:mm:ss a')}}</div>
+                            <div class="order-name ">Last payment: {{$shop->last_payment === null ? 'No Payment yet': \Carbon\Carbon::create($shop->last_payment)->isoFormat('MMMM Do YYYY, h:mm:ss a')}}</div>
 {{--                            ->isoFormat('MMMM Do YYYY, h:mm:ss a')--}}
-                            <div class="order-name">Next payment: {{$shop->next_payment === null ? 'N/A': \Carbon\Carbon::parse($shop->next_payment)->isoFormat('MMMM Do YYYY, h:mm:ss a')}}</div>
+                            <div class="order-name">Next payment: {{$shop->next_payment === null ? 'N/A': \Carbon\Carbon::create($shop->next_payment)->isoFormat('MMMM Do YYYY, h:mm:ss a')}}</div>
 {{--                            <div class="order-name text-capitalize">Next payment: {{\Carbon\Carbon::parse($shop->next_payment)->isoFormat('MMMM Do YYYY, h:mm:ss a')}}</div>--}}
                         </div>
                         <div class="font-weight-bold text-secondary mb-1 d-flex justify-content-end">
                             <div class="text-right">
                                 @if($shop->next_payment == null or $shop->next_payment < \Carbon\Carbon::now())
                                     <span class='pulse-button'></span>
-                                    <span class="btn btn-sm btn-danger">Due</span>
+                                    <span class="btn btn-sm btn-danger">Payment Due</span>
                                 @else
                                     <span class="btn btn-sm btn-success"> Paid </span>
                                 @endif

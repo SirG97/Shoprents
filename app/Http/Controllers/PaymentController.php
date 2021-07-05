@@ -43,35 +43,50 @@ class PaymentController extends Controller
             'amount' => 'required|numeric',
             'duration' => 'required|numeric',
         ]);
+        if($request->date !== null){
+            $date = Carbon::create($request->date);
+            $last_date = Carbon::create($request->date);
+        }else{
+            $last_date = Carbon::now();
+        }
 
-        $date = Carbon::parse($request->date);
         if($request->duration === "3"){
             $nxt = $request->date !== null ? $date->addMonths(3) : Carbon::now()->addMonths(3);
         }elseif($request->duration === "6"){
             $nxt = $request->date !== null ? $date->addMonths(6) : Carbon::now()->addMonths(6);
         }elseif($request->duration === "12"){
             $nxt = $request->date !== null ? $date->addMonths(12) : Carbon::now()->addMonths(12);
+
         }elseif($request->duration === "24"){
             $nxt = $request->date !== null ? $date->addMonths(24) : Carbon::now()->addMonths(24);
         }else{
             return back()->with(['error' => 'There is a problem with this request']);
         }
 
-        $checkLastPayment = Shop::where('id', $request->id)->first();
-        if($checkLastPayment !== null){
-            $nxt = Carbon::parse($checkLastPayment->next_payment)->addMonths($request->duration);
+        $checkShop = Shop::where('id', $request->id)->first();
+        if($checkShop !== null) {
+            if ($checkShop->next_payment !== null) {
+                if($request->date !== null){
+                    $nxt = Carbon::create($checkShop->next_payment)->addMonths((int)$request->duration);
+                }else{
+                    $nxt = Carbon::now()->addMonths((int)$request->duration);
+                }
+
+
+            }
         }
 
        $payment = Payment::create([
             'shop_id' => $request->id,
             'amount' => $request->amount,
             'duration' => $request->duration,
-            'last_payment' => $date,
+            'last_payment' => $last_date,
             'next_payment' => $nxt,
         ]);
 
-        Shop::where('id', $request->id)->update(['last_payment' => $date,
-            'next_payment' => $payment->next_payment]);
+        $shop = Shop::where('id', $request->id)->update(['last_payment' => $last_date,
+            'next_payment' => $nxt]);
+//        dd($payment, $shop);
         return back()->with(['success' => 'Payment noted successfully']);
     }
 

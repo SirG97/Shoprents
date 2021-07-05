@@ -18,7 +18,8 @@ class CreatePaymentsTable extends Migration
             $table->integer('shop_id');
             $table->string('amount');
             $table->string('duration');
-            $table->string('next_payment');
+            $table->timestamp('next_payment')->nullable();
+            $table->timestamp('last_payment')->nullable();
             $table->timestamps();
         });
     }
