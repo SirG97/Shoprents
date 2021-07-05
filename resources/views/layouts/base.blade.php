@@ -15,7 +15,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
@@ -42,7 +42,7 @@
                                 <span class="company-icon d-flex justify-content-center align-items-center">
                                  <i class="fas fa-shield-alt"></i>
                                 </span>
-                            <span class="company_text font-weight-bold">Exshop</span>
+                            <span class="company_text font-weight-bold">MyShopRents</span>
                         </a>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
                     <div class="nav_item prelative">
                         <a href="/shops" class="nav_link nav_flex {{request()->is('/shops') ? 'active': ''}}">
                                <span class="nav_link_icon">
-                                <i class="fas fa-fw fa-user"></i>
+                                <i class="fas fa-fw fa-home"></i>
                                </span>
                             <span class="nav_link_text">All shops</span>
                         </a>
@@ -68,7 +68,7 @@
                     <div class="nav_item prelative">
                         <a href="/new" class="nav_link nav_flex {{ request()->is('/new')}}">
                                 <span class="nav_link_icon">
-                                 <i class="fas fa-fw fa-users"></i>
+                                 <i class="fas fa-fw fa-plus-circle"></i>
                                 </span>
                             <span class="nav_link_text">Add Shop</span>
                         </a>
@@ -84,7 +84,7 @@
                     <div class="nav_item prelative">
                         <a href="/shops/expired" class="nav_link nav_flex {{ request()->is('/shops/expired') ? 'active': ''}}">
                                 <span class="nav_link_icon">
-                                 <i class="fas fa-fw fa-user-plus"></i>
+                                 <i class="fas fa-fw fa-exclamation-triangle"></i>
                                 </span>
                             <span class="nav_link_text">Expired Shops</span>
                         </a>
@@ -92,18 +92,23 @@
                     <div class="nav_item prelative">
                         <a href="/payments" class="nav_link nav_flex {{ request()->is('/payments') ? 'active': ''}}">
                                 <span class="nav_link_icon">
-                                 <i class="fas fa-fw fa-headset"></i>
+                                 <i class="fas fa-fw fa-history"></i>
                                 </span>
                             <span class="nav_link_text">Payment History</span>
                         </a>
                     </div>
 
                     <div class="nav_item prelative">
-                        <a href="/logout" class="nav_link nav_flex">
+                        <a href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();" class="nav_link nav_flex">
                              <span class="nav_link_icon">
                               <i class="fas fa-fw fa-sign-out-alt"></i>
                              </span>
                             <span class="nav_link_text">Logout</span>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
                         </a>
                     </div>
                 </div>
@@ -120,8 +125,17 @@
 
         <div class="header-nav">
                 <span class="header-nav-item">
-                    <img class="avatar rounded-circle img-thumbnail img-fluid" src="/" alt="profile pics">
+{{--                    <img class="avatar rounded-circle img-thumbnail img-fluid" src="/" alt="profile pics">--}}
     {{--            <p class="avatar">Hi! Noble</p>--}}
+                     <a href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();" class="nav_link nav_flex">
+                             <span class="nav_link_icon">
+                              <i class="fas fa-fw fa-sign-out-alt"></i>
+                             </span>
+                            <span class="nav_link_text">Logout</span>
+
+                        </a>
                 </span>
             <div class="nav-dropdown">
                 <div class="nav-dropdown-item">
