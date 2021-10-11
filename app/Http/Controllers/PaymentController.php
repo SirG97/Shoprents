@@ -61,28 +61,14 @@ class PaymentController extends Controller
         }else{
             return back()->with(['error' => 'There is a problem with this request']);
         }
-//        if($request->duration === "3"){
-//            $nxt = $request->date !== null ? $date->addMonths(3) : Carbon::now()->addMonths(3);
-//        }elseif($request->duration === "6"){
-//            $nxt = $request->date !== null ? $date->addMonths(6) : Carbon::now()->addMonths(6);
-//        }elseif($request->duration === "12"){
-//            $nxt = $request->date !== null ? $date->addMonths(12) : Carbon::now()->addMonths(12);
-//
-//        }elseif($request->duration === "24"){
-//            $nxt = $request->date !== null ? $date->addMonths(24) : Carbon::now()->addMonths(24);
-//        }else{
-//            return back()->with(['error' => 'There is a problem with this request']);
-//        }
 
 
         $checkShop = Shop::where('id', $request->id)->first();
         if($checkShop !== null) {
             if ($checkShop->next_payment !== null) {
-                if($request->date !== null){
-                    $nxt = Carbon::create($checkShop->next_payment)->addMonths((int)$request->duration);
-                }else{
-                    $nxt = Carbon::now()->addMonths((int)$request->duration);
-                }
+                $nxt = Carbon::create($checkShop->next_payment)->addMonths((int)$request->duration);
+            } else {
+                $nxt = Carbon::now()->addMonths((int)$request->duration);
             }
         }else{
             return back()->with('error', 'Could not retrieve the shop. Please try again');
@@ -115,7 +101,18 @@ class PaymentController extends Controller
     }
 
     public function payBalance(Request $request){
+        $lastPayment = Payment::where([['shop_id', '=', $request->id]])->orderBy('id', 'desc')->first();
 
+        if($lastPayment == null){
+            return back()->with('error', 'Could not retrieve last payment with owned balance');
+        }
+
+        if($lastPayment->bal_brought_fwd < 1){
+            return back()->with('error', 'You have no balance to be paid');
+        }
+        if($request->amount > $lastPayment->bal_brought_fwd ){
+            return back()->with('error', 'The amount about to be deposited is more than the balance. Pay off balance and make a new payment');
+        }
 
         $request->validate([
             'id' => 'required|numeric',
@@ -126,11 +123,7 @@ class PaymentController extends Controller
             //           b
         ]);
 
-        $lastPayment = Payment::where([['shop_id', '=', $request->id]])->orderBy('id', 'desc')->first();
 
-        if($lastPayment == null){
-            return back()->with('error', 'Could not retrieve last payment with owned balance');
-        }
 
         $last_date =  Carbon::now();
         $nxt = $request->balance_due_by !== null ? Carbon::create($request->balance_due_by): NULL;

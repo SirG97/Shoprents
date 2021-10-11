@@ -22,18 +22,39 @@
                             <div class="order-name text-capitalize">Shop Number: {{$shop->shop_number}}</div>
                             <div class="order-name text-capitalize">Address: {{$shop->address}}</div>
                             <div class="order-name text-capitalize">Phone: {{$shop->phone}}</div>
-                            <div class="order-name ">Last payment: {{$shop->last_payment === null ? 'No Payment yet': \Carbon\Carbon::create($shop->last_payment)->isoFormat('MMMM Do YYYY, h:mm:ss a')}}</div>
+                            <div class="order-name ">Last payment: {{$shop->last_payment === null ? 'No Payment yet': \Carbon\Carbon::create($shop->last_payment)->isoFormat('MMMM Do YYYY')}}</div>
 {{--                            ->isoFormat('MMMM Do YYYY, h:mm:ss a')--}}
-                            <div class="order-name">Next payment: {{$shop->next_payment === null ? 'N/A': \Carbon\Carbon::create($shop->next_payment)->isoFormat('MMMM Do YYYY, h:mm:ss a')}}</div>
-{{--                            <div class="order-name text-capitalize">Next payment: {{\Carbon\Carbon::parse($shop->next_payment)->isoFormat('MMMM Do YYYY, h:mm:ss a')}}</div>--}}
+                            <div class="order-name">Next payment: {{$shop->next_payment === null ? 'N/A': \Carbon\Carbon::create($shop->next_payment)->isoFormat('MMMM Do YYYY')}}</div>
+                            <div class="order-name text-capitalize">Owing Balance: {{$shop->is_owing_bal == 0 ? 'No':'Yes'}}</div>
+                            @if($shop['vacant_status'] == "0")
+                                <form action="{{ route('vacant') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="id" id="id" value="{{ $shop->id }}">
+                                    <button type="submit" class="btn btn-sm btn-primary" >Mark as Vacant</button>
+                                </form>
+                            @else
+                                <button type="submit"
+                                        class="btn btn-sm btn-primary"
+                                        data-toggle="modal"
+                                        data-target="#occupyModal"
+                                        data-id="{{ $shop->id }}"
+                                >Mark as occupied</button>
+                            @endif
+
+
+                            {{--                            <div class="order-name text-capitalize">Next payment: {{\Carbon\Carbon::parse($shop->next_payment)->isoFormat('MMMM Do YYYY, h:mm:ss a')}}</div>--}}
                         </div>
                         <div class="font-weight-bold text-secondary mb-1 d-flex justify-content-end">
                             <div class="text-right">
-                                @if($shop->next_payment == null or $shop->next_payment < \Carbon\Carbon::now())
-                                    <span class='pulse-button'></span>
-                                    <span class="btn btn-sm btn-danger">Payment Due</span>
+                                @if($shop['vacant_status'] == "0")
+                                    @if($shop->next_payment == null or $shop->next_payment < \Carbon\Carbon::now())
+                                        <span class='pulse-button'></span>
+                                        <span class="btn btn-sm btn-danger">Payment Due</span>
+                                    @else
+                                        <span class="btn btn-sm btn-success"> Paid </span>
+                                    @endif
                                 @else
-                                    <span class="btn btn-sm btn-success"> Paid </span>
+                                    <span class="btn btn-sm btn-info">Vacant</span>
                                 @endif
                             </div>
                         </div>
@@ -99,6 +120,8 @@
                                                     <span>{{$payment['duration']}} months</span>
                                                 @elseif($payment['duration'] === "3")
                                                     <span>{{$payment['duration']}} months</span>
+                                                @elseif($payment['duration'] === "0")
+                                                    <span>Balance</span>
                                                 @endif
                                             </td>
                                             <td>{{ $payment['last_payment'] }}</td>
@@ -194,6 +217,64 @@
                             <small class="help-text" style="color:red">Please select another due date ONLY if full balance is not being paid</small>
                         </div>
 
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" >Pay Balance</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" id="occupyModal" tabindex="-1" role="dialog" aria-labelledby="occupyLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <form action="{{ route('occupied') }}" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Occupy Shop</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @csrf
+                        <input type="hidden" name="id" id="id" value="{{ $shop->id }}">
+                        <div class="col-md-12 mb-3">
+                            <label for="name">Plaza<span style="color:red">*</span></label>
+                            <select class="custom-select" name="plaza" required>
+                                @if(!empty($plazas) && count($plazas) > 0)
+                                    <option value="0">Select a Plaza</option>
+                                    @foreach($plazas as $plaza)
+                                        <option value={{$plaza->id}} {{$plaza->id == $shop->plaza_id ? 'selected': ''}}> {{$plaza->name}}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="name">Shop name<span style="color:red">*</span></label>
+                            <input type="text" class="form-control" value="{{ $shop->name }}"  name="name" id="name">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="name">Shop number<span style="color:red">*</span></label>
+                            <input type="text" class="form-control" value="{{ $shop->shop_number }}" name="number" id="number">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="phone">Occupant Phone Number<span style="color:red">*</span></label>
+                            <input type="text" class="form-control" value="{{ $shop->phone }}"  name="phone" id="phone">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="address">Address<span style="color:red">*</span></label>
+                            <input class="form-control" value="{{ $shop->address }}" id="address" name="address" required>
+                        </div>
+
+                        <div class="col-md-12 mb-3">
+                            <label for="name">Is shop vacant<span style="color:red">*</span></label>
+                            <select class="custom-select" name="vacant" required>
+                                <option value="0" {{$shop->vacant_status == 0 ? 'selected': ''}}>No</option>
+                                <option value="1" {{$shop->vacant_status == 1 ? 'selected': ''}}>Yes</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

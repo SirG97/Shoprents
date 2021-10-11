@@ -41,6 +41,17 @@
                                             @else
                                                 <span class="badge badge-info">Vacant</span>
                                             @endif
+                                            @if($shop['is_owing_bal'] == 1)
+                                                @if(\Carbon\Carbon::now() > $shop['next_bal_payment'])
+                                                    <span class='pulse-button pulse-button-normal'></span>
+                                                    <span class="badge badge-danger">Balance Due</span>
+                                                @elseif($shop['next_payment'] < \Carbon\Carbon::now()->addMonth())
+                                                    <span class='pulse-button pulse-button-warn'></span>
+                                                    <span class="badge badge-warning">Balance Almost Due</span>
+                                                @else
+                                                    <span class="badge badge-success">Paid</span>
+                                                @endif
+                                            @endif
                                         </td>
                                         <td scope="row">{{ $shop['name'] }}</td>
                                         <td>{{ $shop['phone'] }}</td>

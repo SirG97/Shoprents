@@ -39,3 +39,7 @@ Route::get('/shop/{shop}', [App\Http\Controllers\ShopController::class, 'show'])
 Route::get('/payments', [App\Http\Controllers\PaymentController::class, 'index'])->name('payments');
 Route::post('/payment/mark', [App\Http\Controllers\PaymentController::class, 'store'])->name('payments.store');
 Route::post('/balance/pay', [App\Http\Controllers\PaymentController::class, 'payBalance'])->name('balance.pay');
+
+//Toggle vacancy
+Route::post('/vacant', [App\Http\Controllers\ShopController::class, 'markAsVacant'])->name('vacant');
+Route::post('/occupied', [App\Http\Controllers\ShopController::class, 'markAsOccupied'])->name('occupied');

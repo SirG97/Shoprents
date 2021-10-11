@@ -50,7 +50,6 @@ class ShopController extends Controller
             'address' => 'required',
             'number' => 'string',
             'vacant' => 'boolean',
-
         ]);
 
         $shop = Shop::create([
@@ -73,9 +72,9 @@ class ShopController extends Controller
     public function show(Shop $shop){
 
         $payments = Payment::where('shop_id', $shop->id)->orderBy('id', 'desc')->paginate(100);
-//dd($shop, $payments);
+        $plazas = Plaza::all();
 
-        return view('shop',['shop' => $shop, 'payments' => $payments]);
+        return view('shop',['shop' => $shop, 'payments' => $payments, 'plazas' => $plazas]);
     }
 
     public function expired(){
@@ -90,6 +89,38 @@ class ShopController extends Controller
 
             ->paginate(15);
         return view('almostexpired',['shops' => $shops]);
+    }
+
+    public function markAsVacant(Request $request){
+        $request->validate([
+           'id' => 'required'
+        ]);
+        Shop::where('id', $request->id)->update(['vacant_status' => 1]);
+
+        return back()->with(['success' => 'Shop marked as vacant successfully']);
+    }
+
+    public function markAsOccupied(Request $request){
+        $request->validate([
+            'id' => 'required',
+            'name' => 'required',
+            'phone' => 'required|numeric',
+            'address' => 'required',
+            'number' => 'string',
+            'vacant' => 'boolean',
+        ]);
+
+        $shop = Shop::findOrFail($request->id);
+        $shop->plaza_id = $request->plaza;
+        $shop->name = $request->name;
+        $shop->phone = $request->phone;
+        $shop->address = $request->address;
+        $shop->shop_number = $request->number;
+        $shop->vacant_status = $request->vacant == "1" ? True : False;
+
+        $shop->save();
+
+        return back()->with('success', 'Shop updated successfully');
     }
 
     /**
