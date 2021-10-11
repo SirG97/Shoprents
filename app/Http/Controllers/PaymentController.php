@@ -43,7 +43,7 @@ class PaymentController extends Controller
             'amount' => 'required|numeric',
             'duration' => 'required|numeric',
             'balance' => 'nullable|numeric',
-            'balance_due' => 'nullable|date'
+            'balance_due' => 'required_with:balance,|nullable|date'
         ]);
 
             $last_date = Carbon::now();
@@ -66,7 +66,7 @@ class PaymentController extends Controller
         $checkShop = Shop::where('id', $request->id)->first();
         if($checkShop !== null) {
             if ($checkShop->next_payment !== null) {
-                $nxt = Carbon::create($checkShop->next_payment)->addMonths((int)$request->duration);
+                $nxt = $checkShop->next_payment->addMonths((int)$request->duration);
             } else {
                 $nxt = Carbon::now()->addMonths((int)$request->duration);
             }

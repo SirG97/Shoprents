@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,5 +21,34 @@ class Payment extends Model
 
     public function shop(){
         return $this->belongsTo(Shop::class);
+    }
+
+    public function getLastPaymentAttribute($value)
+    {
+        if($value !== null or !empty($value)){
+            return Carbon::create($value);
+        }
+
+    }
+
+    public function getNextPaymentAttribute($value)
+    {
+        if($value !== null or !empty($value)){
+            return Carbon::create($value);
+        }
+    }
+
+    public function getLastBalPaymentAttribute($value)
+    {
+        if($value !== null or !empty($value)){
+            return Carbon::create($value);
+        }
+    }
+
+    public function getNextBalPaymentAttribute($value)
+    {
+        if($value !== null or !empty($value)){
+            return Carbon::create($value);
+        }
     }
 }

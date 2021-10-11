@@ -87,22 +87,34 @@
                                 @foreach($shops as $shop)
                                     <tr>
                                         <td scope="row">
-
-                                            @if(\Carbon\Carbon::now() > $shop['next_payment'])
-                                                <span class='pulse-button pulse-button-normal'></span> &nbsp
-                                                <span class="badge badge-danger">Due</span>
-                                            @elseif($shop['next_payment'] < \Carbon\Carbon::now()->addMonth())
-                                                <span class='pulse-button pulse-button-warn'></span>&nbsp
-                                                <span class="badge badge-warning">Almost Due</span>
+                                            @if($shop['vacant_status'] == "0")
+                                                @if(\Carbon\Carbon::now() > $shop['next_payment'])
+                                                    <span class='pulse-button pulse-button-normal'></span> &nbsp
+                                                    <span class="badge badge-danger">Due</span>
+                                                @elseif($shop['next_payment'] < \Carbon\Carbon::now()->addMonth())
+                                                    <span class='pulse-button pulse-button-warn'></span>&nbsp
+                                                    <span class="badge badge-warning">Almost Due</span>
+                                                @else
+                                                    <span class="badge badge-success">Paid</span>
+                                                @endif
                                             @else
-                                                <span class="badge badge-success">Paid</span>
+                                                <span class="badge badge-info">Vacant</span>
                                             @endif
+                                                @if($shop['is_owing_bal'] == 1)
+                                                    @if(\Carbon\Carbon::now() > $shop['next_bal_payment'])
+                                                        <span class='pulse-button pulse-button-normal'></span>
+                                                        <span class="badge badge-danger">Balance Due</span>
+                                                    @elseif($shop['next_bal_payment'] < \Carbon\Carbon::now()->addMonth())
+                                                        <span class='pulse-button pulse-button-warn'></span>
+                                                        <span class="badge badge-warning">Balance Almost Due</span>
+                                                    @endif
+                                                @endif
                                         </td>
                                         <td scope="row">{{ $shop['name'] }}</td>
                                         <td>{{ $shop['phone'] }}</td>
                                         <td>{{ $shop['address'] }}</td>
-                                        <td>{{ $shop['last_payment'] }}</td>
-                                        <td>{{ $shop['next_payment'] }}</td>
+                                        <td>{{ $shop['last_payment']->toFormattedDateString() }}</td>
+                                        <td>{{ $shop['next_payment']->toFormattedDateString() }}</td>
                                         <td><a href="/shop/{{ $shop['id'] }}" class="btn btn-sm btn-primary">View</a></td>
 
                                     </tr>

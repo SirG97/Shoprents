@@ -22,24 +22,17 @@
                             <div class="order-name text-capitalize">Shop Number: {{$shop->shop_number}}</div>
                             <div class="order-name text-capitalize">Address: {{$shop->address}}</div>
                             <div class="order-name text-capitalize">Phone: {{$shop->phone}}</div>
-                            <div class="order-name ">Last payment: {{$shop->last_payment === null ? 'No Payment yet': \Carbon\Carbon::create($shop->last_payment)->isoFormat('MMMM Do YYYY')}}</div>
+                            <div class="order-name ">Last payment: {{$shop->last_payment == null ? 'No Payment yet': $shop->last_payment->isoFormat('MMMM Do YYYY')}}</div>
 {{--                            ->isoFormat('MMMM Do YYYY, h:mm:ss a')--}}
-                            <div class="order-name">Next payment: {{$shop->next_payment === null ? 'N/A': \Carbon\Carbon::create($shop->next_payment)->isoFormat('MMMM Do YYYY')}}</div>
+                            <div class="order-name">Next payment: {{$shop->next_payment == null ? 'N/A': $shop->next_payment->isoFormat('MMMM Do YYYY')}}</div>
                             <div class="order-name text-capitalize">Owing Balance: {{$shop->is_owing_bal == 0 ? 'No':'Yes'}}</div>
-                            @if($shop['vacant_status'] == "0")
-                                <form action="{{ route('vacant') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="id" id="id" value="{{ $shop->id }}">
-                                    <button type="submit" class="btn btn-sm btn-primary" >Mark as Vacant</button>
-                                </form>
-                            @else
+
                                 <button type="submit"
                                         class="btn btn-sm btn-primary"
                                         data-toggle="modal"
                                         data-target="#occupyModal"
                                         data-id="{{ $shop->id }}"
-                                >Mark as occupied</button>
-                            @endif
+                                >Update shop</button>
 
 
                             {{--                            <div class="order-name text-capitalize">Next payment: {{\Carbon\Carbon::parse($shop->next_payment)->isoFormat('MMMM Do YYYY, h:mm:ss a')}}</div>--}}
@@ -124,10 +117,10 @@
                                                     <span>Balance</span>
                                                 @endif
                                             </td>
-                                            <td>{{ $payment['last_payment'] }}</td>
-                                            <td>{{ $payment['next_payment'] }}</td>
-                                            <td>{{ $payment['last_bal_payment'] }}</td>
-                                            <td>{{ $payment['next_bal_payment'] }}</td>
+                                            <td>{{ $payment['last_payment'] !== null ? $payment['last_payment']->toFormattedDateString() : '' }}</td>
+                                            <td>{{ $payment['next_payment'] !== null ? $payment['next_payment']->toFormattedDateString() : ''}}</td>
+                                            <td>{{ $payment['last_bal_payment'] !== null ? $payment['last_bal_payment']->toFormattedDateString() : ''}}</td>
+                                            <td>{{ $payment['next_bal_payment'] !== null ? $payment['next_bal_payment']->toFormattedDateString() : ''}}</td>
                                         </tr>
                                     @endforeach
                                 @else

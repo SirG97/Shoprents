@@ -84,7 +84,7 @@ class ShopController extends Controller
     public function almostDue(){
 //        $shops = Shop::where('next_payment', '<', Carbon::now()->subMonth())->orderBy('id', 'desc')->paginate(100);
         $shops = Shop::where([['next_payment', '<', Carbon::now()->addMonth()],
-                                ['next_payment', '>', Carbon::now()->subMonth()]])
+                                ['next_payment', '>', Carbon::now()]])
 
 
             ->paginate(15);

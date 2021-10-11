@@ -45,19 +45,17 @@
                                                 @if(\Carbon\Carbon::now() > $shop['next_bal_payment'])
                                                     <span class='pulse-button pulse-button-normal'></span>
                                                     <span class="badge badge-danger">Balance Due</span>
-                                                @elseif($shop['next_payment'] < \Carbon\Carbon::now()->addMonth())
+                                                @elseif($shop['next_bal_payment'] < \Carbon\Carbon::now()->addMonth())
                                                     <span class='pulse-button pulse-button-warn'></span>
                                                     <span class="badge badge-warning">Balance Almost Due</span>
-                                                @else
-                                                    <span class="badge badge-success">Paid</span>
                                                 @endif
                                             @endif
                                         </td>
                                         <td scope="row">{{ $shop['name'] }}</td>
                                         <td>{{ $shop['phone'] }}</td>
                                         <td>{{ $shop['address'] }}</td>
-                                        <td>{{ $shop['last_payment'] }}</td>
-                                        <td>{{ $shop['next_payment'] }}</td>
+                                        <td>{{ $shop['last_payment']->toFormattedDateString() }}</td>
+                                        <td>{{ $shop['next_payment']->toFormattedDateString() }}</td>
                                         <td><a href="/shop/{{ $shop['id'] }}" class="btn btn-sm btn-primary">View</a></td>
 
                                     </tr>

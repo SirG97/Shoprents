@@ -37,9 +37,12 @@
                                                 1 year
                                             @elseif($payment['duration'] === "24")
                                                 2 years
+                                            @elseif($payment['duration'] === "0")
+                                                <span>Balance</span>
+
                                             @endif
                                         </td>
-                                        <td>{{ $payment['created_at'] }}</td>
+                                        <td>{{ $payment['created_at']->toFormattedDateString() }}</td>
 
 
 
