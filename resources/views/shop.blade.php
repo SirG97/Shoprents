@@ -57,6 +57,12 @@
                                             data-target="#paymentModal"
                                             data-id="{{ $shop->id }}"
                                     >Mark payment</button>
+                                <button type="submit"
+                                        class="btn btn-sm btn-secondary"
+                                        data-toggle="modal"
+                                        data-target="#balanceModal"
+                                        data-id="{{ $shop->id }}"
+                                >Pay Balance</button>
                                 </div>
                             </div>
 
@@ -122,12 +128,12 @@
                                 @csrf
                                 <input type="hidden" name="id" id="id" value="{{ $shop->id }}">
                                 <div class="col-md-12 mb-3">
-                                    <label for="amount">Amount</label>
-                                    <input type="text" value="" class="form-control"  name="amount" id="amount">
+                                    <label for="amount">Amount<span style="color:red">*</span></label>
+                                    <input type="text" value="" class="form-control"  name="amount" id="amount" required>
                                 </div>
                                 <div class="col-md-12 mb-3">
-                                    <label for="duration">Duration</label>
-                                    <select class="custom-select" id="duration" name="duration" >
+                                    <label for="duration">Duration<span style="color:red">*</span></label>
+                                    <select class="custom-select" id="duration" name="duration" required>
                                         <option value=""></option>
                                         <option value="3">3 months</option>
                                         <option value="6">6 months</option>
@@ -135,9 +141,17 @@
                                         <option value="24">2 years</option>
                                     </select>
                                 </div>
+{{--                            <div class="col-md-12 mb-3">--}}
+{{--                                <label for="amount">Date of payment<span style="color:red">*</span></label>--}}
+{{--                                <input type="date" value="" class="form-control"  name="date" id="date" required>--}}
+{{--                            </div>--}}
                             <div class="col-md-12 mb-3">
-                                <label for="amount">Date of payment</label>
-                                <input type="date" value="" class="form-control"  name="date" id="date">
+                                <label for="balance">Balance owned</label>
+                                <input type="text" value="" class="form-control"  name="balance" id="balance">
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label for="amount">Balance due</label>
+                                <input type="date" value="" class="form-control"  name="balance_due" id="balance_due">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -148,6 +162,37 @@
                 </div>
             </div>
         </div>
+    <div class="modal fade bd-example-modal-lg" id="balanceModal" tabindex="-1" role="dialog" aria-labelledby="editbalanceLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <form action="{{ route('balance.pay') }}" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Pay Balance</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @csrf
+                        <input type="hidden" name="id" id="id" value="{{ $shop->id }}">
+                        <div class="col-md-12 mb-3">
+                            <label for="amount">Amount<span style="color:red">*</span></label>
+                            <input type="text" value="" class="form-control"  name="amount" id="amount" required>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="amount">Date due</label>
+                            <input type="date" value="" class="form-control"  name="balance_due_by" id="balance_due_by" >
+                            <small class="help-text" style="color:red">Please select another due date ONLY if full balance is not being paid</small>
+                        </div>
 
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" >Pay Balance</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     @endsection()
 

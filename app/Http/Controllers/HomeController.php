@@ -29,7 +29,7 @@ class HomeController extends Controller
         $total = Shop::all()->count();
         $expired = Shop::where('next_payment', '<', Carbon::now())->count();
         $expireInOneMonth = Shop::where([['next_payment', '<', Carbon::now()->addMonth()],
-                                        ['next_payment', '<', Carbon::now()->subMonth()]])->count();
+            ['next_payment', '>', Carbon::now()->subMonth()]])->count();
         $revenue = Payment::all()->sum('amount');
         $shops = Shop::where('next_payment', '<', Carbon::now()->addMonth())
             ->orWhere('next_payment', '<', Carbon::now()->subMonth())

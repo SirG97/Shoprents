@@ -14,10 +14,14 @@ class Shop extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'address', 'status', 'phone', 'last_payment','next_payment'
+        'name', 'address', 'status', 'phone', 'last_payment','next_payment', 'plaza_id', 'vacant_status', 'shop_number'
     ];
 
     public function payments(){
         return $this->hasMany(Payment::class);
+    }
+
+    public function plaza(){
+        return $this->belongsTo(Plaza::class);
     }
 }

@@ -8,7 +8,8 @@
             <div class="col-md-12">
                 <div class="custom-panel card py-2">
                     <div class="font-weight-bold text-secondary mb-1 py-3 px-3">
-                        All shops
+                      Plaza:  {{$plaza->name}} <br>
+                        Address: {{$plaza->address}}
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover ">
@@ -64,7 +65,7 @@
                         </table>
                     </div>
                     <div class="panel-footer py-1 mt-0 mr-3 d-flex justify-content-end">
-                            {{ $shops->links() }}
+                        {{ $shops->links() }}
                     </div>
 
                 </div>

@@ -58,6 +58,22 @@
                         </a>
                     </div>
                     <div class="nav_item prelative">
+                        <a href="/plazas" class="nav_link nav_flex {{request()->is('/plazas') ? 'active': ''}}">
+                               <span class="nav_link_icon">
+                                <i class="fas fa-fw fa-home"></i>
+                               </span>
+                            <span class="nav_link_text">Plazas</span>
+                        </a>
+                    </div>
+                    <div class="nav_item prelative">
+                        <a href="/newplaza" class="nav_link nav_flex {{request()->is('/newplaza') ? 'active': ''}}">
+                               <span class="nav_link_icon">
+                                <i class="fas fa-fw fa-home"></i>
+                               </span>
+                            <span class="nav_link_text">New Plaza</span>
+                        </a>
+                    </div>
+                    <div class="nav_item prelative">
                         <a href="/shops" class="nav_link nav_flex {{request()->is('/shops') ? 'active': ''}}">
                                <span class="nav_link_icon">
                                 <i class="fas fa-fw fa-home"></i>

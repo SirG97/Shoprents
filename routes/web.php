@@ -22,11 +22,20 @@ Route::redirect('/', '/login');
 Auth::routes();
 
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/plazas', [App\Http\Controllers\PlazaController::class, 'index'])->name('plazas');
+Route::get('/plaza/{plaza}', [App\Http\Controllers\PlazaController::class, 'show'])->name('plaza');
+
+Route::get('/newplaza', [App\Http\Controllers\PlazaController::class, 'create'])->name('plaza.create');
+Route::post('/plaza/add', [App\Http\Controllers\PlazaController::class, 'store'])->name('plaza.store');
+
 Route::get('/shops', [App\Http\Controllers\ShopController::class, 'index'])->name('shops');
 Route::get('/new', [App\Http\Controllers\ShopController::class, 'create'])->name('shops.create');
 Route::post('/shops/add', [App\Http\Controllers\ShopController::class, 'store'])->name('shops.store');
 Route::get('/shops/expired', [App\Http\Controllers\ShopController::class, 'expired'])->name('shops.expired');
 Route::get('/shops/almostdue', [App\Http\Controllers\ShopController::class, 'almostDue'])->name('shops.almost');
 Route::get('/shop/{shop}', [App\Http\Controllers\ShopController::class, 'show'])->name('shops.show');
+
 Route::get('/payments', [App\Http\Controllers\PaymentController::class, 'index'])->name('payments');
 Route::post('/payment/mark', [App\Http\Controllers\PaymentController::class, 'store'])->name('payments.store');
+Route::post('/balance/pay', [App\Http\Controllers\PaymentController::class, 'payBalance'])->name('balance.pay');

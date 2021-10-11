@@ -7,9 +7,8 @@ use App\Models\Plaza;
 use App\Models\Shop;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
-class ShopController extends Controller
+class PlazaController extends Controller
 {
     public function __construct()
     {
@@ -21,8 +20,9 @@ class ShopController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $shops = Shop::orderBy('id', 'desc')->paginate(100);
-        return view('shops',['shops' => $shops]);
+        $plazas = Plaza::withCount('shops')->paginate(25);
+
+        return view('plazas',['plazas' => $plazas]);
     }
 
     /**
@@ -32,8 +32,7 @@ class ShopController extends Controller
      */
     public function create()
     {
-        $plazas = Plaza::all();
-        return view('newshop', ['plazas' => $plazas]);
+        return view('newplaza');
 
     }
 
@@ -46,22 +45,18 @@ class ShopController extends Controller
     public function store(Request $request){
         $request->validate([
             'name' => 'required',
-            'phone' => 'required|numeric',
             'address' => 'required',
-            'number' => 'string',
-            'vacant' => 'boolean',
+//            'duration' => Rule::requiredIf($request->amount !== null),
+//            'amount' => 'numeric|' . Rule::requiredIf($request->duration !== null),
 
         ]);
 
-        $shop = Shop::create([
-            'plaza_id' => $request->plaza,
+        $plaza = Plaza::create([
             'name' => $request->name,
-            'phone' => $request->phone,
+
             'address' => $request->address,
-            'shop_number' => $request->number,
-            'vacant_status' => $request->vacant == "1" ? True : False,
         ]);
-        return redirect('/shop/'. $shop->id)->with(['success' => 'Shop created successfully']);
+        return redirect('/plazas')->with(['success' => 'Plaza created successfully']);
     }
 
     /**
@@ -70,12 +65,10 @@ class ShopController extends Controller
      * @param  \App\Models\Shop  $shop
      * @return \Illuminate\Http\Response
      */
-    public function show(Shop $shop){
+    public function show(Plaza $plaza){
+        $shops = Shop::where('plaza_id', $plaza->id)->orderBy('id', 'desc')->paginate(100);
 
-        $payments = Payment::where('shop_id', $shop->id)->orderBy('id', 'desc')->paginate(100);
-//dd($shop, $payments);
-
-        return view('shop',['shop' => $shop, 'payments' => $payments]);
+        return view('plaza', ['plaza' => $plaza, 'shops' => $shops, ]);
     }
 
     public function expired(){
@@ -85,7 +78,7 @@ class ShopController extends Controller
     public function almostDue(){
 //        $shops = Shop::where('next_payment', '<', Carbon::now()->subMonth())->orderBy('id', 'desc')->paginate(100);
         $shops = Shop::where([['next_payment', '<', Carbon::now()->addMonth()],
-                                ['next_payment', '>', Carbon::now()->subMonth()]])
+            ['next_payment', '>', Carbon::now()->subMonth()]])
 
 
             ->paginate(15);
