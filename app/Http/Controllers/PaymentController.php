@@ -38,20 +38,16 @@ class PaymentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
-
         $request->validate([
             'id' => 'required|numeric',
             'amount' => 'required|numeric',
             'duration' => 'required|numeric',
-//            => 'exclude_if:has_appointment,false|required|date'
+            'balance' => 'nullable|numeric',
+            'balance_due' => 'nullable|date'
         ]);
-        // Check if the payment date was entered by the user if not, then use the current date
-//        if($request->date !== null){
-//            $date = Carbon::create($request->date);
-//            $last_date = Carbon::create($request->date);
-//        }else{
+
             $last_date = Carbon::now();
-//        }
+
         // Check how many months the shop owner want's to pay for.
         if($request->duration === "3"){
             $nxt = Carbon::now()->addMonths(3);
@@ -88,7 +84,11 @@ class PaymentController extends Controller
                     $nxt = Carbon::now()->addMonths((int)$request->duration);
                 }
             }
+        }else{
+            return back()->with('error', 'Could not retrieve the shop. Please try again');
         }
+
+
         $lastPayment = Payment::where('shop_id', $request->id)->orderBy('id', 'desc')->first();
         $balance_brought_forward = 0;
         if($lastPayment == null){
@@ -102,31 +102,59 @@ class PaymentController extends Controller
             'amount' => $request->amount,
             'duration' => $request->duration,
             'last_payment' => $last_date,
-            'balance' => $balance_brought_forward,
-            'balance_due_by' => $request->balance_due !== null ? Carbon::create($request->balance_due): NULL,
+            'balance' => $request->balance,
+            'bal_brought_fwd' => $balance_brought_forward,
+            'next_bal_payment' => $request->balance_due !== null ? Carbon::create($request->balance_due): NULL,
             'next_payment' => $nxt->copy()->subDay(),
         ]);
-
+        // Update the shop table with latest payment
         $shop = Shop::where('id', $request->id)->update(['last_payment' => $last_date,
-            'next_payment' => $nxt]);
+            'next_payment' => $nxt, 'is_owing_bal' => $balance_brought_forward == 0 ? false : true]);
 //        dd($payment, $shop);
-        return back()->with(['success' => 'Payment noted successfully']);
+        return back()->with(['success' => 'Rent paid successfully']);
     }
 
     public function payBalance(Request $request){
 
-        $lastPayment = Payment::where('id', $request->id)->orderBy('id', 'desc')->first();
-        if($lastPayment == null){
-            return back()->with('error', 'Could not retrieve last payment');
-        }
+
         $request->validate([
             'id' => 'required|numeric',
             'amount' => 'required|numeric',
             'balance_due_by' =>  Rule::requiredIf(function () use ($request, $lastPayment) {
-                return $request->amount < $lastPayment->balance;
+                return $request->amount < $lastPayment->bal_brought_fwd;
             }) . '|date',
             //           b
         ]);
+
+        $lastPayment = Payment::where([['shop_id', '=', $request->id]])->orderBy('id', 'desc')->first();
+
+        if($lastPayment == null){
+            return back()->with('error', 'Could not retrieve last payment with owned balance');
+        }
+
+        $last_date =  Carbon::now();
+        $nxt = $request->balance_due_by !== null ? Carbon::create($request->balance_due_by): NULL;
+        $payment = Payment::create([
+            'shop_id' => $request->id,
+            'amount' => $request->amount,
+            'duration' => 0,
+            'last_bal_payment' => $last_date,
+            'balance' => 0,
+            'bal_brought_fwd' => (int)$lastPayment->bal_brought_fwd - (int)$request->amount,
+            'next_bal_payment' => $nxt,
+        ]);
+        // Check if the whole balance has been paid so as to set the balance owed flag to false
+        if((int)$lastPayment->balance < (int)$request->amount){
+            $balance_status = false;
+        }else{
+            $balance_status = true;
+        }
+        // Update the shop
+        $shop = Shop::where('id', $request->id)->update(['last_bal_payment' => $last_date,
+            'next_bal_payment' => $nxt, 'is_owing_bal' => $balance_status]);
+//        dd($payment, $shop);
+        return back()->with(['success' => 'Balance paid successfully']);
+
     }
 
     /**

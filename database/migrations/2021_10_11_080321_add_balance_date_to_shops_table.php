@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddBalanceToPaymentsTable extends Migration
+class AddBalanceDateToShopsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class AddBalanceToPaymentsTable extends Migration
      */
     public function up()
     {
-        Schema::table('payments', function (Blueprint $table) {
-            $table->string('balance')->default(0);
-            $table->string('payment_type')->default('rent');
+        Schema::table('shops', function (Blueprint $table) {
+            $table->timestamp('last_bal_payment')->nullable();
             $table->timestamp('next_bal_payment')->nullable();
+            $table->boolean('is_owing_bal')->default(0);
         });
     }
 
@@ -27,7 +27,7 @@ class AddBalanceToPaymentsTable extends Migration
      */
     public function down()
     {
-        Schema::table('payments', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
         });
     }

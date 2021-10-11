@@ -60,7 +60,7 @@
                     <div class="nav_item prelative">
                         <a href="/plazas" class="nav_link nav_flex {{request()->is('/plazas') ? 'active': ''}}">
                                <span class="nav_link_icon">
-                                <i class="fas fa-fw fa-home"></i>
+                                <i class="fas fa-fw fa-city"></i>
                                </span>
                             <span class="nav_link_text">Plazas</span>
                         </a>
@@ -68,7 +68,7 @@
                     <div class="nav_item prelative">
                         <a href="/newplaza" class="nav_link nav_flex {{request()->is('/newplaza') ? 'active': ''}}">
                                <span class="nav_link_icon">
-                                <i class="fas fa-fw fa-home"></i>
+                                <i class="fas fa-fw fa-plus-square"></i>
                                </span>
                             <span class="nav_link_text">New Plaza</span>
                         </a>

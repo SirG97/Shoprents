@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddBalanceToPaymentsTable extends Migration
+class AddBalanceDateToPaymentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +14,8 @@ class AddBalanceToPaymentsTable extends Migration
     public function up()
     {
         Schema::table('payments', function (Blueprint $table) {
-            $table->string('balance')->default(0);
-            $table->string('payment_type')->default('rent');
-            $table->timestamp('next_bal_payment')->nullable();
+//            $table->renameColumn('balance_due_by', 'next_bal_payment');
+            $table->timestamp('last_bal_payment')->nullable();
         });
     }
 

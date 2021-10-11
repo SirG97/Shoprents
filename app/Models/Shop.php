@@ -14,7 +14,7 @@ class Shop extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'address', 'status', 'phone', 'last_payment','next_payment', 'plaza_id', 'vacant_status', 'shop_number'
+        'name', 'address', 'status', 'phone', 'last_payment','next_payment', 'plaza_id', 'vacant_status', 'shop_number', 'next_bal_payment', 'last_bal_payment', 'is_owing_bal'
     ];
 
     public function payments(){
