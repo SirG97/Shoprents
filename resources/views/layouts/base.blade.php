@@ -155,7 +155,9 @@
                 </span>
             <div class="nav-dropdown">
                 <div class="nav-dropdown-item">
-                    <a href="/profile">
+                    <a href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
                         <div class="nav-dropdown-item-link">
                             Profile
                         </div>
