@@ -112,6 +112,7 @@ class ShopController extends Controller
 
         $request->validate([
             'id' => 'required',
+            'plaza' => 'required|numeric',
             'name' => 'nullable|string',
             'phone' => 'nullable|numeric',
             'number' => 'nullable|string',

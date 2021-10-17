@@ -15,7 +15,7 @@
                             <thead class="trx-bg-head text-secondary py-3 px-3">
                             <tr>
                                 <th scope="col">Status</th>
-                                <th scope="col">Shop name</th>
+                                <th scope="col">Occupant</th>
                                 <th scope="col">Phone</th>
                                 <th scope="col">Address</th>
                                 <th scope="col">Last Payment</th>

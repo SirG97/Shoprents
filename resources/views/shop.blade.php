@@ -254,7 +254,7 @@
                             <label for="name">Plaza<span style="color:red">*</span></label>
                             <select class="custom-select" name="plaza" required>
                                 @if(!empty($plazas) && count($plazas) > 0)
-                                    <option value="0">Select a Plaza</option>
+                                    <option value="">Select a Plaza</option>
                                     @foreach($plazas as $plaza)
                                         <option value="{{$plaza->id}}" {{$plaza->id == $shop->plaza_id ? 'selected': ''}}> {{$plaza->name}}</option>
                                     @endforeach
