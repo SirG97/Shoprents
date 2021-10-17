@@ -14,10 +14,18 @@
                         <table class="table table-hover ">
                             <thead class="trx-bg-head text-secondary py-3 px-3">
                             <tr>
-                                <th scope="col">Shop name</th>
+                                <th scope="col">S/N</th>
                                 <th scope="col">Amount</th>
+                                <th scope="col">Paid</th>
+                                <th scope="col">Bal</th>
+                                <th scope="col">BBF</th>
                                 <th scope="col">Duration</th>
                                 <th scope="col">Paid on</th>
+                                <th scope="col">Due by</th>
+                                <th scope="col">Bal Paid on</th>
+                                <th scope="col">Bal due by</th>
+
+
 
                             </tr>
                             </thead>
@@ -26,8 +34,35 @@
                                 @foreach($payments as $payment)
                                     <tr>
 
-                                        <td scope="row">{{ $payment->shop['name'] }}</td>
-                                        <td>&#8358 {{ number_format($payment['amount'], 2) }}</td>
+                                        <td scope="row">{{ $payment->shop['shop_number'] }}</td>
+                                        <td>
+                                            @if($payment['amount'] != false)
+                                                &#8358  {{ number_format($payment['amount'], 2) }}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($payment['paid'] != false)
+                                                &#8358  {{ number_format($payment['paid'], 2) }}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($payment['balance'] != false)
+                                                &#8358  {{ number_format($payment['balance'], 2) }}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($payment['bal_brought_fwd'] != false)
+                                                &#8358  {{ number_format($payment['bal_brought_fwd'], 2) }}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
                                         <td>
                                             @if($payment['duration'] === "3")
                                                 3 months
@@ -42,7 +77,11 @@
 
                                             @endif
                                         </td>
-                                        <td>{{ $payment['created_at']->toFormattedDateString() }}</td>
+
+                                        <td>{{ $payment['last_payment'] !== null ? $payment['last_payment']->toFormattedDateString() : '' }}</td>
+                                        <td>{{ $payment['next_payment'] !== null ? $payment['next_payment']->toFormattedDateString() : ''}}</td>
+                                        <td>{{ $payment['last_bal_payment'] !== null ? $payment['last_bal_payment']->toFormattedDateString() : ''}}</td>
+                                        <td>{{ $payment['next_bal_payment'] !== null ? $payment['next_bal_payment']->toFormattedDateString() : ''}}</td>
 
 
 

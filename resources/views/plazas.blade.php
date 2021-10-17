@@ -3,7 +3,16 @@
 @section('icon', 'fa-tachometer-a')
 @section('content')
     <div class="container-fluid">
-
+        @if (session('success'))
+            <div class="alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger" role="alert">
+                {{ session('error') }}
+            </div>
+        @endif
         <div class="row">
             <div class="col-md-12">
                 <div class="custom-panel card py-2">
@@ -43,7 +52,16 @@
                                         <td>{{ $plaza['address'] }}</td>
                                         <td>{{ $plaza->shops_count }}</td>
 
-                                        <td><a href="/plaza/{{ $plaza['id'] }}" class="btn btn-sm btn-primary">View shops</a></td>
+                                        <td>
+                                            <a href="/plaza/{{ $plaza['id'] }}" class="btn btn-sm btn-primary">View shops</a>
+                                            <a href="#" class="btn btn-sm btn-warning"
+                                               data-toggle="modal"
+                                               data-target="#editPlazaModal"
+                                               data-id="{{ $plaza->id }}"
+                                               data-name="{{ $plaza->name }}"
+                                               data-address="{{ $plaza->address }}"
+                                            >Edit</a>
+                                        </td>
 
                                     </tr>
                                 @endforeach
@@ -66,6 +84,38 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" id="editPlazaModal" tabindex="-1" role="dialog" aria-labelledby="editPlazaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <form action="{{ route('plaza.edit') }}" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Plaza details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @csrf
+                        <input type="hidden" name="id" id="id" value="">
+
+                            <div class="col-md-12 mb-3">
+                                <label for="balance">Name</label>
+                                <input type="text" class="form-control" name="name" id="name" value="">
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label for="balance_due">Address</label>
+                                <input type="text" class="form-control" name="address" id="address" value="">
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" id="editPlazaBtn" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 @endsection

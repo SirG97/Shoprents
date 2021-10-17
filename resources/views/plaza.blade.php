@@ -16,9 +16,8 @@
                             <thead class="trx-bg-head text-secondary py-3 px-3">
                             <tr>
                                 <th scope="col">Status</th>
-                                <th scope="col">Shop name</th>
+                                <th scope="col">Shop number</th>
                                 <th scope="col">Phone</th>
-                                <th scope="col">Address</th>
                                 <th scope="col">Last Payment</th>
                                 <th scope="col">Due by</th>
                                 <th scope="col">Action</th>
@@ -43,9 +42,8 @@
                                                 <span class="badge badge-info">Vacant</span>
                                             @endif
                                         </td>
-                                        <td scope="row">{{ $shop['name'] }}</td>
+                                        <td scope="row">{{ $shop['shop_number'] }}</td>
                                         <td>{{ $shop['phone'] }}</td>
-                                        <td>{{ $shop['address'] }}</td>
                                         <td>{{ $shop['last_payment'] }}</td>
                                         <td>{{ $shop['next_payment'] }}</td>
                                         <td><a href="/shop/{{ $shop['id'] }}" class="btn btn-sm btn-primary">View</a></td>
@@ -56,7 +54,7 @@
 
                             @else
                                 <tr>
-                                    <td colspan="7">
+                                    <td colspan="6">
                                         <div class="d-flex justify-content-center"> No Shops yet</div>
                                     </td>
                                 </tr>

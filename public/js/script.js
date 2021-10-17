@@ -219,82 +219,68 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     // Edit staff modal
-    $('#editStaffModal').on('show.bs.modal', function (event) {
+    $('#editPlazaModal').on('show.bs.modal', function (event) {
         let button = $(event.relatedTarget); // Button that triggered the modal
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         let modal = $(this);
-        modal.find('#user_id').val( button.data('user_id')); // Extract info from data-* attributes
+        modal.find('#id').val( button.data('id')); // Extract info from data-* attributes
 
-        modal.find('#email').val(button.data('email')); // Extract info from data-* attributes
-        modal.find('#password').val(button.data('password')); // Extract info from data-* attributes
-        modal.find('#firstname').val(button.data('firstname')); // Extract info from data-* attributes
-        modal.find('#lastname').val(button.data('lastname')); // Extract info from data-* attributes
+        modal.find('#name').val(button.data('name')); // Extract info from data-* attributes
         modal.find('#address').val(button.data('address')); // Extract info from data-* attributes
-        modal.find('#phone').val(button.data('phone')); // Extract info from data-* attributes
-        modal.find('#branch').val(button.data('branch')); // Extract info from data-* attributes
-        modal.find('#unit_manager').val(button.data('unit_manager')); // Extract info from data-* attributes
-        modal.find('#admin_right').val(button.data('admin_right')); // Extract info from data-* attributes
-        modal.find('#job_title').val(button.data('job_title')); // Extract info from data-* attributes
-        modal.find('#job_description').val(button.data('job_description')); // Extract info from data-* attributes
+
+
     });
 
-    $('#editStaffBtn').on('click', (e)=>{
+    $('#editPlazaBtno').on('click', (e)=>{
         e.preventDefault();
-        let user_id = $('#user_id').val();
-        const url = `/staff/${user_id}/edit`;
+        // e.preventDefault();
+        $("#plazaEditForm").submit();
+        // let plaza_id = $('#id').val();
+        // const url = `/plaza/${plaza_id}/edit`;
 
-        let d = new FormData();
-        d.append('token', $('#token').val());
-
-        d.append('firstname', $('#firstname').val());
-        d.append('lastname', $('#lastname').val());
-        d.append('email', $('#email').val());
-        d.append('password', $('#password').val());
-        d.append('phone', $('#phone').val());
-        d.append('address', $('#address').val());
-        d.append('branch', $('#branch').val());
-        d.append('unit_manager', $('#unit_manager').val());
-        d.append('admin_right', $('#admin_right').val());
-        d.append('job_title', $('#job_title').val());
-        d.append('job_description', $('#job_description').val());
-        d.append('profile_pics', $("#profile_pics").prop("files")[0]);
-
-
-        $.ajax({
-            url: url,
-            type: 'POST',
-            processData: false,
-            contentType: false,
-            cache: false,
-            data: d,
-            beforeSend: function(){
-                $('#editStaffBtn').html('<i class="fa fa-spinner fa-spin"></i> Please wait...');
-            },
-            success: function (response) {
-                let data = JSON.parse(response);
-                console.log(JSON.parse(response));
-                let message = data.success;
-                msg.innerHTML = alertMessage('success', message);
-                $('#editStaffBtn').html('Save');
-                //interval(5000);
-                window.location.reload()
-            },
-            error: function(request, error){
-                let errors = JSON.parse(request.responseText);
-                console.log(errors);
-                let ul = '';
-                $.each(errors, (key, value) => {
-                    $.each(value, (index, item)=>{
-                        console.log(item);
-                        ul += `${item} <br>`;
-                    });
-                });
-
-                msg.innerHTML = alertMessage('danger', ul);
-                $('#editStaffBtn').html('Save');
-                interval(5000);
-            }
-        });
+        // let d = new FormData();
+        // d.append('token', $('#token').val());
+        //
+        // d.append('firstname', $('#firstname').val());
+        // d.append('lastname', $('#lastname').val());
+        //
+        //
+        //
+        // $.ajax({
+        //     url: url,
+        //     type: 'POST',
+        //     processData: false,
+        //     contentType: false,
+        //     cache: false,
+        //     data: d,
+        //     beforeSend: function(){
+        //         $('#editStaffBtn').html('<i class="fa fa-spinner fa-spin"></i> Please wait...');
+        //     },
+        //     success: function (response) {
+        //         let data = JSON.parse(response);
+        //         console.log(JSON.parse(response));
+        //         let message = data.success;
+        //         msg.innerHTML = alertMessage('success', message);
+        //         $('#editStaffBtn').html('Save');
+        //         //interval(5000);
+        //         window.location.reload()
+        //     },
+        //     error: function(request, error){
+        //         let errors = JSON.parse(request.responseText);
+        //         console.log(errors);
+        //         let ul = '';
+        //         $.each(errors, (key, value) => {
+        //             $.each(value, (index, item)=>{
+        //                 console.log(item);
+        //                 ul += `${item} <br>`;
+        //             });
+        //         });
+        //
+        //         msg.innerHTML = alertMessage('danger', ul);
+        //         $('#editStaffBtn').html('Save');
+        //         interval(5000);
+        //     }
+        // });
     });
 
     // show the delete confirmation modal for staff

@@ -45,10 +45,7 @@
                                             @endif
                                         </select>
                                     </div>
-                                    <div class="col-md-12 mb-3">
-                                        <label for="name">Shop name<span style="color:red">*</span></label>
-                                        <input type="text" class="form-control"  name="name" id="name">
-                                    </div>
+
                                     <div class="col-md-12 mb-3">
                                         <label for="name">Shop number<span style="color:red">*</span></label>
                                         <input type="text" class="form-control"  name="number" id="number">
@@ -57,10 +54,7 @@
                                         <label for="phone">Occupant Phone Number<span style="color:red">*</span></label>
                                         <input type="text" class="form-control"  name="phone" id="phone">
                                     </div>
-                                    <div class="col-md-12 mb-3">
-                                        <label for="address">Address<span style="color:red">*</span></label>
-                                        <input class="form-control" id="address" name="address" required>
-                                    </div>
+
                                     <div class="col-md-12 mb-3">
                                         <label for="name">Is shop vacant<span style="color:red">*</span></label>
                                         <select class="custom-select" name="vaccant" required>

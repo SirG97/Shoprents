@@ -100,12 +100,24 @@ class PlazaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Shop  $shop
+     * @param  \App\Models\Shop  $plaza
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Shop $shop)
+    public function update(Request $request)
     {
-        //
+        $request->validate([
+            'id' => 'required',
+            'name' => 'required',
+            'address' => 'required',
+        ]);
+
+        Plaza::where('id', $request->id)->update([
+           'name' => $request->name,
+           'address' => $request->address,
+        ]);
+
+        return back()->with('success', 'Plaza updated successfully');
+
     }
 
     /**

@@ -25,6 +25,7 @@ Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])-
 
 Route::get('/plazas', [App\Http\Controllers\PlazaController::class, 'index'])->name('plazas');
 Route::get('/plaza/{plaza}', [App\Http\Controllers\PlazaController::class, 'show'])->name('plaza');
+Route::post('/plaza/update', [App\Http\Controllers\PlazaController::class, 'update'])->name('plaza.edit');
 
 Route::get('/newplaza', [App\Http\Controllers\PlazaController::class, 'create'])->name('plaza.create');
 Route::post('/plaza/add', [App\Http\Controllers\PlazaController::class, 'store'])->name('plaza.store');
@@ -39,6 +40,8 @@ Route::get('/shop/{shop}', [App\Http\Controllers\ShopController::class, 'show'])
 Route::get('/payments', [App\Http\Controllers\PaymentController::class, 'index'])->name('payments');
 Route::post('/payment/mark', [App\Http\Controllers\PaymentController::class, 'store'])->name('payments.store');
 Route::post('/balance/pay', [App\Http\Controllers\PaymentController::class, 'payBalance'])->name('balance.pay');
+
+Route::get('/shops/balance_due', [App\Http\Controllers\ShopController::class, 'balance'])->name('balance');
 
 //Toggle vacancy
 Route::post('/vacant', [App\Http\Controllers\ShopController::class, 'markAsVacant'])->name('vacant');

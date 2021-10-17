@@ -94,7 +94,7 @@
                                 <span class="nav_link_icon">
                                  <i class="fas fa-fw fa-user-plus"></i>
                                 </span>
-                            <span class="nav_link_text">Almost Due Shops</span>
+                            <span class="nav_link_text">Expiring Shops</span>
                         </a>
                     </div>
                     <div class="nav_item prelative">
@@ -103,6 +103,14 @@
                                  <i class="fas fa-fw fa-exclamation-triangle"></i>
                                 </span>
                             <span class="nav_link_text">Expired Shops</span>
+                        </a>
+                    </div>
+                    <div class="nav_item prelative">
+                        <a href="/shops/balance_due" class="nav_link nav_flex {{ request()->is('/shops/balance_due') ? 'active': ''}}">
+                                <span class="nav_link_icon">
+                                 <i class="fas fa-fw fa-battery-quarter"></i>
+                                </span>
+                            <span class="nav_link_text">Balance Due Shops</span>
                         </a>
                     </div>
                     <div class="nav_item prelative">

@@ -21,7 +21,7 @@ class ShopController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $shops = Shop::orderBy('id', 'desc')->paginate(100);
+        $shops = Shop::with(['plaza'])->orderBy('id', 'desc')->paginate(100);
         return view('shops',['shops' => $shops]);
     }
 
@@ -45,18 +45,14 @@ class ShopController extends Controller
      */
     public function store(Request $request){
         $request->validate([
-            'name' => 'required',
-            'phone' => 'required|numeric',
-            'address' => 'required',
-            'number' => 'string',
+            'phone' => 'nullable|numeric',
+            'number' => 'required|string',
             'vacant' => 'boolean',
         ]);
 
         $shop = Shop::create([
             'plaza_id' => $request->plaza,
-            'name' => $request->name,
             'phone' => $request->phone,
-            'address' => $request->address,
             'shop_number' => $request->number,
             'vacant_status' => $request->vacant == "1" ? True : False,
         ]);
@@ -91,6 +87,16 @@ class ShopController extends Controller
         return view('almostexpired',['shops' => $shops]);
     }
 
+    public function balance(){
+//        $shops = Shop::where('next_balpayment', '<', Carbon::now()->subMonth())->orderBy('id', 'desc')->paginate(100);
+        $shops = Shop::where([['next_bal_payment', '<', Carbon::now()->addDays(7)],
+            ['next_bal_payment', '>', Carbon::now()]])
+
+
+            ->paginate(15);
+        return view('balance',['shops' => $shops]);
+    }
+
     public function markAsVacant(Request $request){
         $request->validate([
            'id' => 'required'
@@ -101,24 +107,26 @@ class ShopController extends Controller
     }
 
     public function markAsOccupied(Request $request){
+
         $request->validate([
             'id' => 'required',
-            'name' => 'required',
-            'phone' => 'required|numeric',
-            'address' => 'required',
-            'number' => 'string',
+            'phone' => 'nullable|numeric',
+            'number' => 'nullable|string',
             'vacant' => 'boolean',
         ]);
 
-        $shop = Shop::findOrFail($request->id);
-        $shop->plaza_id = $request->plaza;
-        $shop->name = $request->name;
-        $shop->phone = $request->phone;
-        $shop->address = $request->address;
-        $shop->shop_number = $request->number;
-        $shop->vacant_status = $request->vacant == "1" ? True : False;
 
-        $shop->save();
+
+        $shop = Shop::where('id',$request->id)->update([
+            'plaza_id' => $request->plaza,
+            'phone' => $request->phone,
+            'shop_number' => $request->number,
+            'vacant_status' => $request->vacant == "1" ? True : False
+        ]);
+//
+//        $shop->vacant_status = $request->vacant == "1" ? True : False;
+//
+//        $shop->save();
 
         return back()->with('success', 'Shop updated successfully');
     }

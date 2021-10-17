@@ -41,6 +41,7 @@ class PaymentController extends Controller
         $request->validate([
             'id' => 'required|numeric',
             'amount' => 'required|numeric',
+            'paid' => 'required|numeric',
             'duration' => 'required|numeric',
             'balance' => 'nullable|numeric',
             'balance_due' => 'required_with:balance,|nullable|date'
@@ -80,12 +81,14 @@ class PaymentController extends Controller
         if($lastPayment == null){
             $balance_brought_forward = $request->balance;
         }else{
-            $balance_brought_forward = (int)$lastPayment->balance + (int)$request->balance;
+            $balance_brought_forward = (int)$lastPayment->bal_brought_fwd + (int)$request->balance;
         }
+
 
        $payment = Payment::create([
             'shop_id' => $request->id,
             'amount' => $request->amount,
+            'paid' => $request->paid,
             'duration' => $request->duration,
             'last_payment' => $last_date,
             'balance' => $request->balance,
@@ -95,7 +98,10 @@ class PaymentController extends Controller
         ]);
         // Update the shop table with latest payment
         $shop = Shop::where('id', $request->id)->update(['last_payment' => $last_date,
-            'next_payment' => $nxt, 'is_owing_bal' => $balance_brought_forward == 0 ? false : true]);
+            'next_payment' => $nxt,
+            'is_owing_bal' => $balance_brought_forward == 0 ? false : true,
+            'next_bal_payment' => $request->balance_due !== null ? Carbon::create($request->balance_due): NULL,
+            ]);
 //        dd($payment, $shop);
         return back()->with(['success' => 'Rent paid successfully']);
     }
@@ -117,10 +123,8 @@ class PaymentController extends Controller
         $request->validate([
             'id' => 'required|numeric',
             'amount' => 'required|numeric',
-            'balance_due_by' =>  Rule::requiredIf(function () use ($request, $lastPayment) {
-                return $request->amount < $lastPayment->bal_brought_fwd;
-            }) . '|date',
-            //           b
+            'balance_due_by' =>  'nullable|date',
+
         ]);
 
 
@@ -129,7 +133,8 @@ class PaymentController extends Controller
         $nxt = $request->balance_due_by !== null ? Carbon::create($request->balance_due_by): NULL;
         $payment = Payment::create([
             'shop_id' => $request->id,
-            'amount' => $request->amount,
+            'paid' => $request->amount,
+//            '' => $request->amount,
             'duration' => 0,
             'last_bal_payment' => $last_date,
             'balance' => 0,

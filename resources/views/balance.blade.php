@@ -1,5 +1,5 @@
 @extends('layouts.base')
-@section('title', 'Almost Due Shops')
+@section('title', 'Balance Due Shops')
 @section('icon', 'fa-tachometer-a')
 @section('content')
     <div class="container-fluid">
@@ -8,7 +8,7 @@
             <div class="col-md-12">
                 <div class="custom-panel card py-2">
                     <div class="font-weight-bold text-secondary mb-1 py-3 px-3">
-                        Expired shops
+                        Balance Due shops
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover ">
@@ -17,7 +17,7 @@
                                 <th scope="col">Status</th>
                                 <th scope="col">Shop number</th>
                                 <th scope="col">Phone</th>
-                                <th scope="col">Address</th>
+
                                 <th scope="col">Last Payment</th>
                                 <th scope="col">Due by</th>
                                 <th scope="col">Action</th>
@@ -32,9 +32,9 @@
                                         </td>
                                         <td scope="row">{{ $shop['shop_number'] }}</td>
                                         <td>{{ $shop['phone'] }}</td>
-                                        <td>{{ $shop['address'] }}</td>
-                                        <td>{{ $shop['last_payment'] !== null ? $shop['last_payment']->toFormattedDateString() : '' }}</td>
-                                        <td>{{ $shop['next_payment'] !== null ? $shop['next_payment']->toFormattedDateString() : ''}}</td>
+
+                                        <td>{{ $shop['last_bal_payment'] !== null ? $shop['last_bal_payment']->toFormattedDateString() : '' }}</td>
+                                        <td>{{ $shop['next_bal_payment'] !== null ? $shop['next_bal_payment']->toFormattedDateString() : ''}}</td>
                                         <td><a href="/shop/{{ $shop['id'] }}" class="btn btn-sm btn-primary">View</a></td>
 
                                     </tr>
@@ -44,7 +44,7 @@
                             @else
                                 <tr>
                                     <td colspan="7">
-                                        <div class="d-flex justify-content-center"> No Shops about to expire yet</div>
+                                        <div class="d-flex justify-content-center"> No Shops with due balance yet</div>
                                     </td>
                                 </tr>
                             @endif

@@ -18,14 +18,15 @@
                 <div class="custom-panel card ">
                     <div class="d-flex justify-content-between py-2 px-3">
                         <div class="text-secondary mb-1">
-                            <div class="font-weight-bold text-capitalize" style="font-size: 22px">{{$shop->name}}</div>
-                            <div class="order-name text-capitalize">Shop Number: {{$shop->shop_number}}</div>
-                            <div class="order-name text-capitalize">Address: {{$shop->address}}</div>
+                            <div class="font-weight-bold text-capitalize" style="font-size: 22px">{{$shop->shop_number}}</div>
                             <div class="order-name text-capitalize">Phone: {{$shop->phone}}</div>
                             <div class="order-name ">Last payment: {{$shop->last_payment == null ? 'No Payment yet': $shop->last_payment->isoFormat('MMMM Do YYYY')}}</div>
 {{--                            ->isoFormat('MMMM Do YYYY, h:mm:ss a')--}}
                             <div class="order-name">Next payment: {{$shop->next_payment == null ? 'N/A': $shop->next_payment->isoFormat('MMMM Do YYYY')}}</div>
                             <div class="order-name text-capitalize">Owing Balance: {{$shop->is_owing_bal == 0 ? 'No':'Yes'}}</div>
+                            <div class="order-name ">Last Balance payment: {{$shop->last_bal_payment == null ? 'N/A': $shop->last_bal_payment->isoFormat('MMMM Do YYYY')}}</div>
+                            {{--                            ->isoFormat('MMMM Do YYYY, h:mm:ss a')--}}
+                            <div class="order-name">Next Balance payment: {{$shop->next_bal_payment == null ? 'N/A': $shop->next_bal_payment->isoFormat('MMMM Do YYYY')}}</div>
 
                                 <button type="submit"
                                         class="btn btn-sm btn-primary"
@@ -87,6 +88,7 @@
                                 <thead class="trx-bg-head text-secondary py-3 px-3">
                                 <tr>
                                     <th scope="col">Amount</th>
+                                    <th scope="col">Paid</th>
                                     <th scope="col">Balance</th>
                                     <th scope="col">BBF</th>
                                     <th scope="col">Duration</th>
@@ -102,6 +104,7 @@
                                     @foreach($payments as $payment)
                                         <tr>
                                             <td>&#8358 {{ $payment['amount'] }}</td>
+                                            <td>&#8358 {{ $payment['paid'] }}</td>
                                             <td>&#8358 {{ $payment['balance'] }}</td>
                                             <td>&#8358 {{ $payment['bal_brought_fwd'] }}</td>
                                             <td>
@@ -153,8 +156,12 @@
                                 @csrf
                                 <input type="hidden" name="id" id="id" value="{{ $shop->id }}">
                                 <div class="col-md-12 mb-3">
-                                    <label for="amount">Amount<span style="color:red">*</span></label>
+                                    <label for="amount">Amount to be paid<span style="color:red">*</span></label>
                                     <input type="text" value="" class="form-control"  name="amount" id="amount" required>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label for="amount">Amount paid<span style="color:red">*</span></label>
+                                    <input type="text" value="" class="form-control"  name="paid" id="paid" required>
                                 </div>
                                 <div class="col-md-12 mb-3">
                                     <label for="duration">Duration<span style="color:red">*</span></label>
@@ -213,7 +220,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" >Pay Balance</button>
+                        <button type="submit" class="btn btn-primary" >Save</button>
                     </div>
                 </form>
             </div>
@@ -225,7 +232,7 @@
             <div class="modal-content">
                 <form action="{{ route('occupied') }}" method="POST">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Occupy Shop</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Update Shop</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -239,15 +246,15 @@
                                 @if(!empty($plazas) && count($plazas) > 0)
                                     <option value="0">Select a Plaza</option>
                                     @foreach($plazas as $plaza)
-                                        <option value={{$plaza->id}} {{$plaza->id == $shop->plaza_id ? 'selected': ''}}> {{$plaza->name}}</option>
+                                        <option value="{{$plaza->id}}" {{$plaza->id == $shop->plaza_id ? 'selected': ''}}> {{$plaza->name}}</option>
                                     @endforeach
                                 @endif
                             </select>
                         </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="name">Shop name<span style="color:red">*</span></label>
-                            <input type="text" class="form-control" value="{{ $shop->name }}"  name="name" id="name">
-                        </div>
+{{--                        <div class="col-md-12 mb-3">--}}
+{{--                            <label for="name">Shop name<span style="color:red">*</span></label>--}}
+{{--                            <input type="text" class="form-control" value="{{ $shop->name }}"  name="name" id="name">--}}
+{{--                        </div>--}}
                         <div class="col-md-12 mb-3">
                             <label for="name">Shop number<span style="color:red">*</span></label>
                             <input type="text" class="form-control" value="{{ $shop->shop_number }}" name="number" id="number">
@@ -256,10 +263,10 @@
                             <label for="phone">Occupant Phone Number<span style="color:red">*</span></label>
                             <input type="text" class="form-control" value="{{ $shop->phone }}"  name="phone" id="phone">
                         </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="address">Address<span style="color:red">*</span></label>
-                            <input class="form-control" value="{{ $shop->address }}" id="address" name="address" required>
-                        </div>
+{{--                        <div class="col-md-12 mb-3">--}}
+{{--                            <label for="address">Address<span style="color:red">*</span></label>--}}
+{{--                            <input class="form-control" value="{{ $shop->address }}" id="address" name="address" required>--}}
+{{--                        </div>--}}
 
                         <div class="col-md-12 mb-3">
                             <label for="name">Is shop vacant<span style="color:red">*</span></label>
@@ -271,7 +278,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" >Pay Balance</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
                     </div>
                 </form>
             </div>

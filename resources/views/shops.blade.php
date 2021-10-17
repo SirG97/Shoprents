@@ -15,9 +15,10 @@
                             <thead class="trx-bg-head text-secondary py-3 px-3">
                             <tr>
                                 <th scope="col">Status</th>
-                                <th scope="col">Shop name</th>
+                                <th scope="col">Plaza</th>
+                                <th scope="col">Shop number</th>
                                 <th scope="col">Phone</th>
-                                <th scope="col">Address</th>
+
                                 <th scope="col">Last Payment</th>
                                 <th scope="col">Due by</th>
                                 <th scope="col">Action</th>
@@ -45,15 +46,16 @@
                                                 @if(\Carbon\Carbon::now() > $shop['next_bal_payment'])
                                                     <span class='pulse-button pulse-button-normal'></span>
                                                     <span class="badge badge-danger">Balance Due</span>
-                                                @elseif($shop['next_bal_payment'] < \Carbon\Carbon::now()->addMonth())
+                                                @elseif($shop['next_bal_payment'] < \Carbon\Carbon::now()->addDays(7))
                                                     <span class='pulse-button pulse-button-warn'></span>
                                                     <span class="badge badge-warning">Balance Almost Due</span>
                                                 @endif
                                             @endif
                                         </td>
-                                        <td scope="row">{{ $shop['name'] }}</td>
+                                        <td scope="row">{{ $shop->plaza['name'] }}</td>
+                                        <td scope="row">{{ $shop['shop_number'] }}</td>
                                         <td>{{ $shop['phone'] }}</td>
-                                        <td>{{ $shop['address'] }}</td>
+
                                         <td>{{ $shop['last_payment'] !== null ? $shop['last_payment']->toFormattedDateString() : '' }}</td>
                                         <td>{{ $shop['next_payment'] !== null ? $shop['next_payment']->toFormattedDateString() : ''}}</td>
                                         <td><a href="/shop/{{ $shop['id'] }}" class="btn btn-sm btn-primary">View</a></td>
