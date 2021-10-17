@@ -19,6 +19,7 @@
                     <div class="d-flex justify-content-between py-2 px-3">
                         <div class="text-secondary mb-1">
                             <div class="font-weight-bold text-capitalize" style="font-size: 22px">{{$shop->shop_number}}</div>
+                            <div class="order-name text-capitalize">Occupant: {{$shop->name}}</div>
                             <div class="order-name text-capitalize">Phone: {{$shop->phone}}</div>
                             <div class="order-name ">Last payment: {{$shop->last_payment == null ? 'No Payment yet': $shop->last_payment->isoFormat('MMMM Do YYYY')}}</div>
 {{--                            ->isoFormat('MMMM Do YYYY, h:mm:ss a')--}}
@@ -260,10 +261,10 @@
                                 @endif
                             </select>
                         </div>
-{{--                        <div class="col-md-12 mb-3">--}}
-{{--                            <label for="name">Shop name<span style="color:red">*</span></label>--}}
-{{--                            <input type="text" class="form-control" value="{{ $shop->name }}"  name="name" id="name">--}}
-{{--                        </div>--}}
+                        <div class="col-md-12 mb-3">
+                            <label for="name">Occupant name<span style="color:red">*</span></label>
+                            <input type="text" class="form-control" value="{{ $shop->name }}"  name="name" id="name">
+                        </div>
                         <div class="col-md-12 mb-3">
                             <label for="name">Shop number<span style="color:red">*</span></label>
                             <input type="text" class="form-control" value="{{ $shop->shop_number }}" name="number" id="number">

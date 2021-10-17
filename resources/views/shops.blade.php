@@ -26,8 +26,8 @@
                                 <th scope="col">Status</th>
                                 <th scope="col">Plaza</th>
                                 <th scope="col">Shop number</th>
+                                <th scope="col">Occupant</th>
                                 <th scope="col">Phone</th>
-
                                 <th scope="col">Last Payment</th>
                                 <th scope="col">Due by</th>
                                 <th scope="col">Action</th>
@@ -63,6 +63,7 @@
                                         </td>
                                         <td scope="row">{{ $shop->plaza['name'] }}</td>
                                         <td scope="row">{{ $shop['shop_number'] }}</td>
+                                        <td>{{ $shop['name'] }}</td>
                                         <td>{{ $shop['phone'] }}</td>
 
                                         <td>{{ $shop['last_payment'] !== null ? $shop['last_payment']->toFormattedDateString() : '' }}</td>

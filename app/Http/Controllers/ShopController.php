@@ -46,12 +46,14 @@ class ShopController extends Controller
     public function store(Request $request){
         $request->validate([
             'phone' => 'nullable|numeric',
+            'name' => 'string',
             'number' => 'required|string',
             'vacant' => 'boolean',
         ]);
 
         $shop = Shop::create([
             'plaza_id' => $request->plaza,
+            'name' => $request->name,
             'phone' => $request->phone,
             'shop_number' => $request->number,
             'vacant_status' => $request->vacant == "1" ? True : False,
@@ -110,6 +112,7 @@ class ShopController extends Controller
 
         $request->validate([
             'id' => 'required',
+            'name' => 'nullable|string',
             'phone' => 'nullable|numeric',
             'number' => 'nullable|string',
             'vacant' => 'boolean',
@@ -119,6 +122,7 @@ class ShopController extends Controller
 
         $shop = Shop::where('id',$request->id)->update([
             'plaza_id' => $request->plaza,
+            'name' => $request->name,
             'phone' => $request->phone,
             'shop_number' => $request->number,
             'vacant_status' => $request->vacant == "1" ? True : False

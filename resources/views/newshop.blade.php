@@ -51,6 +51,10 @@
                                         <input type="text" class="form-control"  name="number" id="number">
                                     </div>
                                     <div class="col-md-12 mb-3">
+                                        <label for="name">Occupant Name<span style="color:red">*</span></label>
+                                        <input type="text" class="form-control"  name="name" id="name">
+                                    </div>
+                                    <div class="col-md-12 mb-3">
                                         <label for="phone">Occupant Phone Number<span style="color:red">*</span></label>
                                         <input type="text" class="form-control"  name="phone" id="phone">
                                     </div>

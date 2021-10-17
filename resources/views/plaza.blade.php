@@ -26,6 +26,7 @@
                             <tr>
                                 <th scope="col">Status</th>
                                 <th scope="col">Shop number</th>
+                                <th scope="col">Occupant</th>
                                 <th scope="col">Phone</th>
                                 <th scope="col">Last Payment</th>
                                 <th scope="col">Due by</th>
@@ -52,6 +53,7 @@
                                             @endif
                                         </td>
                                         <td scope="row">{{ $shop['shop_number'] }}</td>
+                                        <td scope="row">{{ $shop['name'] }}</td>
                                         <td>{{ $shop['phone'] }}</td>
                                         <td>{{ $shop['last_payment'] }}</td>
                                         <td>{{ $shop['next_payment'] }}</td>
