@@ -27,16 +27,32 @@
                             @if(!empty($shops) && count($shops) > 0)
                                 @foreach($shops as $shop)
                                     <tr>
-                                        <td scope="row">
-                                            <span class="badge badge-warning">Almost due</span>
-                                        </td>
-                                        <td scope="row">{{ $shop['shop_number'] }}</td>
-                                        <td>{{ $shop['phone'] }}</td>
+                                        @if($shop['is_owing_bal'] == 1)
+                                            @if(\Carbon\Carbon::now() > $shop['next_bal_payment'])
+                                                <td scope="row">
+                                                    <span class='pulse-button pulse-button-normal'></span>
+                                                    <span class="badge badge-danger">Balance Due</span>
+                                                </td>
+                                                <td scope="row">{{ $shop['shop_number'] }}</td>
+                                                <td>{{ $shop['phone'] }}</td>
 
-                                        <td>{{ $shop['last_bal_payment'] !== null ? $shop['last_bal_payment']->toFormattedDateString() : '' }}</td>
-                                        <td>{{ $shop['next_bal_payment'] !== null ? $shop['next_bal_payment']->toFormattedDateString() : ''}}</td>
-                                        <td><a href="/shop/{{ $shop['id'] }}" class="btn btn-sm btn-primary">View</a></td>
+                                                <td>{{ $shop['last_bal_payment'] !== null ? $shop['last_bal_payment']->toFormattedDateString() : '' }}</td>
+                                                <td>{{ $shop['next_bal_payment'] !== null ? $shop['next_bal_payment']->toFormattedDateString() : ''}}</td>
+                                                <td><a href="/shop/{{ $shop['id'] }}" class="btn btn-sm btn-primary">View</a></td>
 
+                                            @elseif($shop['next_bal_payment'] < \Carbon\Carbon::now()->addDays(7))
+                                                <td>
+                                                    <span class='pulse-button pulse-button-warn'></span>
+                                                    <span class="badge badge-warning">Balance Almost Due</span>
+                                                </td>
+                                                <td scope="row">{{ $shop['shop_number'] }}</td>
+                                                <td>{{ $shop['phone'] }}</td>
+
+                                                <td>{{ $shop['last_bal_payment'] !== null ? $shop['last_bal_payment']->toFormattedDateString() : '' }}</td>
+                                                <td>{{ $shop['next_bal_payment'] !== null ? $shop['next_bal_payment']->toFormattedDateString() : ''}}</td>
+                                                <td><a href="/shop/{{ $shop['id'] }}" class="btn btn-sm btn-primary">View</a></td>
+                                            @endif
+                                        @endif
                                     </tr>
                                 @endforeach
                                 {{--    {{ $contributions->links('views.bootstrap-4') }}--}}

@@ -96,6 +96,7 @@
                                     <th scope="col">Due by</th>
                                     <th scope="col">Balance Paid on</th>
                                     <th scope="col">Balance due by</th>
+                                    <th scope="col">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -124,6 +125,14 @@
                                             <td>{{ $payment['next_payment'] !== null ? $payment['next_payment']->toFormattedDateString() : ''}}</td>
                                             <td>{{ $payment['last_bal_payment'] !== null ? $payment['last_bal_payment']->toFormattedDateString() : ''}}</td>
                                             <td>{{ $payment['next_bal_payment'] !== null ? $payment['next_bal_payment']->toFormattedDateString() : ''}}</td>
+                                            <td>
+
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-danger"
+                                                        data-toggle="modal"
+                                                        data-target="#deletePaymentModal"
+                                                        data-id="{{ $payment->id }}"
+                                                >Delete</button></td>
                                         </tr>
                                     @endforeach
                                 @else
@@ -142,7 +151,7 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade bd-example-modal-lg" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="editpaymentLabel" aria-hidden="true">
+        <div class="modal fade bd-example-modal-lg" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentLabel" aria-hidden="true">
             <div class="modal-dialog modal-md" role="document">
                 <div class="modal-content">
                     <form action="{{ route('payments.store') }}" method="POST">
@@ -281,6 +290,31 @@
                         <button type="submit" class="btn btn-primary">Save</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deletePaymentModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete payment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="paymentDeleteForm" action="" method="POST">
+                        <div class="col-md-12">
+                            Are you sure you want to delete this payment?
+                            @csrf
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" id="deletePaymentBtn">Delete</button>
+                </div>
             </div>
         </div>
     </div>

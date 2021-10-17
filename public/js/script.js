@@ -284,18 +284,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     // show the delete confirmation modal for staff
-    $('#deleteStaffModal').on('show.bs.modal', function (event) {
+    $('#deletePaymentModal').on('show.bs.modal', function (event) {
         let button = $(event.relatedTarget); // Button that triggered the modal
-        let user_id = button.data('user_id'); // Extract info from data-* attributes
-        let form_action = `/staff/${user_id}/delete`;
+        let id = button.data('id'); // Extract info from data-* attributes
+        let form_action = `/payment/${id}/delete`;
 
         let modal = $(this);
-        modal.find('#staffDeleteForm').attr("action", form_action);
+        modal.find('#paymentDeleteForm').attr("action", form_action);
     });
 
-    $('#deleteStaffBtn').on('click', (e)=>{
+    $('#deletePaymentBtn').on('click', (e)=>{
         e.preventDefault();
-        $("#staffDeleteForm").submit();
+        $("#paymentDeleteForm").submit();
     });
 
 

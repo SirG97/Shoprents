@@ -89,11 +89,11 @@ class ShopController extends Controller
 
     public function balance(){
 //        $shops = Shop::where('next_balpayment', '<', Carbon::now()->subMonth())->orderBy('id', 'desc')->paginate(100);
-        $shops = Shop::where([['next_bal_payment', '<', Carbon::now()->addDays(7)],
-            ['next_bal_payment', '>', Carbon::now()]])
+//        $shops = Shop::where([['next_bal_payment', '<', Carbon::now()->addDays(7)],
+//            ['next_bal_payment', '>', Carbon::now()]])
+//            ->paginate(15);
+        $shops = Shop::paginate(15);
 
-
-            ->paginate(15);
         return view('balance',['shops' => $shops]);
     }
 

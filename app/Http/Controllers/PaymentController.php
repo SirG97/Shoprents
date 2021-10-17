@@ -194,8 +194,15 @@ class PaymentController extends Controller
      * @param  \App\Models\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Payment $payment)
+    public function delete(Payment $payment)
     {
-        //
+
+        if(!$payment or $payment == null){
+            return back()->with('error', 'An error occurred while deleting this payment, please try again');
+        }
+
+        $payment->delete();
+
+        return back()->with('success', 'Payment updated successfully');
     }
 }
