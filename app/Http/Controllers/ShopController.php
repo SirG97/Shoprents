@@ -160,8 +160,16 @@ class ShopController extends Controller
      * @param  \App\Models\Shop  $shop
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Shop $shop)
+    public function delete(Shop $shop)
     {
-        //
+        if(!$shop or $shop == null){
+            return back()->with('error', 'An error occurred while deleting this shop, please try again');
+        }
+
+        Payment::where('shop_id', $shop->id)->delete();
+
+        $shop->delete();
+
+        return back()->with('success', 'Shop deleted successfully');
     }
 }

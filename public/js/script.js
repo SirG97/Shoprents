@@ -283,6 +283,22 @@ document.addEventListener('DOMContentLoaded', (event) => {
         // });
     });
 
+
+    // show the delete confirmation modal for staff
+    $('#deleteShopModal').on('show.bs.modal', function (event) {
+        let button = $(event.relatedTarget); // Button that triggered the modal
+        let id = button.data('id'); // Extract info from data-* attributes
+        let form_action = `/shop/${id}/delete`;
+
+        let modal = $(this);
+        modal.find('#shopDeleteForm').attr("action", form_action);
+    });
+
+    $('#deleteShopBtn').on('click', (e)=>{
+        e.preventDefault();
+        $("#shopDeleteForm").submit();
+    });
+
     // show the delete confirmation modal for staff
     $('#deletePaymentModal').on('show.bs.modal', function (event) {
         let button = $(event.relatedTarget); // Button that triggered the modal

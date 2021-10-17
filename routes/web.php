@@ -36,6 +36,7 @@ Route::post('/shops/add', [App\Http\Controllers\ShopController::class, 'store'])
 Route::get('/shops/expired', [App\Http\Controllers\ShopController::class, 'expired'])->name('shops.expired');
 Route::get('/shops/almostdue', [App\Http\Controllers\ShopController::class, 'almostDue'])->name('shops.almost');
 Route::get('/shop/{shop}', [App\Http\Controllers\ShopController::class, 'show'])->name('shops.show');
+Route::post('/shop/{shop}/delete', [App\Http\Controllers\ShopController::class, 'delete'])->name('shop.delete');
 
 Route::get('/payments', [App\Http\Controllers\PaymentController::class, 'index'])->name('payments');
 Route::post('/payment/mark', [App\Http\Controllers\PaymentController::class, 'store'])->name('payments.store');

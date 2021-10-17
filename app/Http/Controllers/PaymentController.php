@@ -203,6 +203,6 @@ class PaymentController extends Controller
 
         $payment->delete();
 
-        return back()->with('success', 'Payment updated successfully');
+        return back()->with('success', 'Payment deleted successfully');
     }
 }
