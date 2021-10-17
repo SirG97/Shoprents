@@ -195,6 +195,6 @@
     </main>
 </div>
 
-    <script src="{{ asset('js/script.js') }}?v=0.0.1"></script>
+    <script src="{{ asset('js/script.js') }}?v=0.0.2"></script>
 </body>
 </html>
