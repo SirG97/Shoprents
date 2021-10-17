@@ -44,7 +44,7 @@ class PaymentController extends Controller
             'paid' => 'required|numeric',
             'duration' => 'required|numeric',
             'balance' => 'nullable|numeric',
-            'balance_due' => 'required_with:balance,|nullable|date'
+            'balance_due' => 'nullable|date'
         ]);
 
             $last_date = Carbon::now();
