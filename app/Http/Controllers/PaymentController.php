@@ -44,35 +44,41 @@ class PaymentController extends Controller
             'paid' => 'required|numeric',
             'duration' => 'required|numeric',
             'balance' => 'nullable|numeric',
+            'date' => 'nullable|date',
             'balance_due' => 'nullable|date'
         ]);
-
+        // Check if a last date was provided so we can work with it or else, we assume the payment date is today
+        if($request->date !== null){
+            $date = Carbon::create($request->date);
+            $last_date = Carbon::create($request->date);
+        }else{
             $last_date = Carbon::now();
+        }
 
-        // Check how many months the shop owner want's to pay for.
+        // Check how many months is being paid for and set the next date of payment with it
         if($request->duration === "3"){
-            $nxt = Carbon::now()->addMonths(3);
+            $nxt = $request->date !== null ? $date->addMonths(3) : Carbon::now()->addMonths(3);
         }elseif($request->duration === "6"){
-            $nxt = Carbon::now()->addMonths(6);
+            $nxt = $request->date !== null ? $date->addMonths(6) : Carbon::now()->addMonths(6);
         }elseif($request->duration === "12"){
-            $nxt =  Carbon::now()->addMonths(12);
+            $nxt = $request->date !== null ? $date->addMonths(12) : Carbon::now()->addMonths(12);
 
         }elseif($request->duration === "24"){
-            $nxt = Carbon::now()->addMonths(24);
+            $nxt = $request->date !== null ? $date->addMonths(24) : Carbon::now()->addMonths(24);
         }else{
             return back()->with(['error' => 'There is a problem with this request']);
         }
 
-
+        // Get the shop whoose payment is about to be made
         $checkShop = Shop::where('id', $request->id)->first();
         if($checkShop !== null) {
             if ($checkShop->next_payment !== null) {
-                $nxt = $checkShop->next_payment->addMonths((int)$request->duration);
-            } else {
-                $nxt = Carbon::now()->addMonths((int)$request->duration);
+                if($request->date !== null){
+                    $nxt = Carbon::parse($checkShop->next_payment)->addMonths((int)$request->duration);
+                }else{
+                    $nxt = Carbon::now()->addMonths((int)$request->duration);
+                }
             }
-        }else{
-            return back()->with('error', 'Could not retrieve the shop. Please try again');
         }
 
 
@@ -98,7 +104,7 @@ class PaymentController extends Controller
         ]);
         // Update the shop table with latest payment
         $shop = Shop::where('id', $request->id)->update(['last_payment' => $last_date,
-            'next_payment' => $nxt,
+            'next_payment' => $nxt->copy()->subDay(),
             'is_owing_bal' => $balance_brought_forward == 0 ? false : true,
             'next_bal_payment' => $request->balance_due !== null ? Carbon::create($request->balance_due): NULL,
             ]);

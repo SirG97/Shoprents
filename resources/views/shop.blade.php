@@ -183,10 +183,10 @@
                                         <option value="24">2 years</option>
                                     </select>
                                 </div>
-{{--                            <div class="col-md-12 mb-3">--}}
-{{--                                <label for="amount">Date of payment<span style="color:red">*</span></label>--}}
-{{--                                <input type="date" value="" class="form-control"  name="date" id="date" required>--}}
-{{--                            </div>--}}
+                            <div class="col-md-12 mb-3">
+                                <label for="amount">Date of payment<span style="color:red">*</span></label>
+                                <input type="date" value="" class="form-control"  name="date" id="date" required>
+                            </div>
                             <div class="col-md-12 mb-3">
                                 <label for="balance">Balance owned</label>
                                 <input type="text" value="0" class="form-control"  name="balance" id="balance">
