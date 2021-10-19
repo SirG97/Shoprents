@@ -142,7 +142,7 @@ class PaymentController extends Controller
             'next_bal_payment' => $nxt,
         ]);
         // Check if the whole balance has been paid so as to set the balance owed flag to false
-        if((int)$lastPayment->balance < (int)$request->amount){
+        if((int)$lastPayment->bal_brought_fwd <= (int)$request->amount){
             $balance_status = false;
         }else{
             $balance_status = true;
@@ -200,8 +200,46 @@ class PaymentController extends Controller
         if(!$payment or $payment == null){
             return back()->with('error', 'An error occurred while deleting this payment, please try again');
         }
-
+        //Get the shop whose payment is about to be delivered
+        $del_id = $payment->shop_id;
+        $shop =  Shop::where('id', $payment->shop_id)->first();
+        //Delete the payment
         $payment->delete();
+        //Get the last payment of this shop
+        $lastPayment = Payment::where([['shop_id', '=', $shop->id],['duration', '!=', 0]])->orderBy('id', 'desc')->first();
+        $lastBalPaid = Payment::where([['shop_id', '=', $shop->id],['duration', '=', 0]])->orderBy('id', 'desc')->first();
+
+//        dd($lastPayment, $lastBalPaid);
+        if($lastPayment == null){
+            $shop->update([
+                'next_payment' => NULL,
+                'last_payment' => NULL,
+//                'is_owing_bal' =>
+            ]);
+
+        }else{
+            $shop->update([
+                'next_payment' => $lastPayment->next_payment,
+                'last_payment' => $lastPayment->last_payment,
+                'is_owing_bal' => $lastPayment->bal_brought_fwd > 0 ? true : false,
+            ]);
+        }
+
+        if($lastBalPaid == null){
+            $shop->update([
+                'next_bal_payment' => NULL,
+                'last_bal_payment' => NULL,
+            ]);
+
+
+        }else{
+            $shop->update([
+                'next_bal_payment' => $lastBalPaid->next_bal_payment,
+                'last_bal_payment' => $lastBalPaid->last_bal_payment,
+                'is_owing_bal' => $lastBalPaid->bal_brought_fwd > 0 ? true : false,
+            ]);
+        }
+
 
         return back()->with('success', 'Payment deleted successfully');
     }
