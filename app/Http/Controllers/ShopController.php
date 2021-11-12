@@ -21,7 +21,7 @@ class ShopController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $shops = Shop::with(['plaza'])->orderBy('id', 'desc')->paginate(100);
+        $shops = Shop::with(['plaza'])->orderByRaw('LENGTH(shop_number)', 'ASC')->orderBy('shop_number', 'asc')->paginate(100);
         return view('shops',['shops' => $shops]);
     }
 
@@ -69,20 +69,20 @@ class ShopController extends Controller
      */
     public function show(Shop $shop){
 
-        $payments = Payment::where('shop_id', $shop->id)->orderBy('id', 'desc')->paginate(100);
+        $payments = Payment::where('shop_id', $shop->id)->paginate(100);
         $plazas = Plaza::all();
 
         return view('shop',['shop' => $shop, 'payments' => $payments, 'plazas' => $plazas]);
     }
 
     public function expired(){
-        $shops = Shop::where('next_payment', '<', Carbon::now())->orderBy('id', 'desc')->paginate(100);
+        $shops = Shop::where('next_payment', '<', Carbon::now())->orderByRaw('LENGTH(shop_number)', 'ASC')->orderBy('shop_number', 'asc')->paginate(100);
         return view('expiredshops',['shops' => $shops]);
     }
     public function almostDue(){
 //        $shops = Shop::where('next_payment', '<', Carbon::now()->subMonth())->orderBy('id', 'desc')->paginate(100);
         $shops = Shop::where([['next_payment', '<', Carbon::now()->addMonth()],
-                                ['next_payment', '>', Carbon::now()]])
+                                ['next_payment', '>', Carbon::now()]])->orderByRaw('LENGTH(shop_number)', 'ASC')->orderBy('shop_number', 'asc')
 
 
             ->paginate(15);
