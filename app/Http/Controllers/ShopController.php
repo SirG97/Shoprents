@@ -69,7 +69,7 @@ class ShopController extends Controller
      */
     public function show(Shop $shop){
 
-        $payments = Payment::where('shop_id', $shop->id)->orderBy('shop_number', 'asc')->paginate(100);
+        $payments = Payment::where('shop_id', $shop->id)->paginate(100);
         $plazas = Plaza::all();
 
         return view('shop',['shop' => $shop, 'payments' => $payments, 'plazas' => $plazas]);
