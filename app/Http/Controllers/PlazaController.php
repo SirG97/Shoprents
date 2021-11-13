@@ -66,7 +66,7 @@ class PlazaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Plaza $plaza){
-        $shops = Shop::where('plaza_id', $plaza->id)->orderBy('id', 'desc')->paginate(100);
+        $shops = Shop::where('plaza_id', $plaza->id)->orderBy('shop_number', 'asc')->paginate(100);
 
         return view('plaza', ['plaza' => $plaza, 'shops' => $shops, ]);
     }
