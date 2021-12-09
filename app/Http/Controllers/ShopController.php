@@ -21,7 +21,7 @@ class ShopController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $shops = Shop::with(['plaza'])->orderBy('shop_number', 'asc')->paginate(100);
+        $shops = Shop::with(['plaza'])->orderBy('shop_number', 'asc')->paginate(50);
         return view('shops',['shops' => $shops]);
     }
 
@@ -46,9 +46,9 @@ class ShopController extends Controller
     public function store(Request $request){
         $request->validate([
             'phone' => 'nullable|numeric',
-            'name' => 'string',
-            'number' => 'required|string',
-            'vacant' => 'boolean',
+            'name' => 'nullable|string',
+            'number' => 'nullable|string',
+            'vacant' => 'required|boolean',
         ]);
 
         $shop = Shop::create([

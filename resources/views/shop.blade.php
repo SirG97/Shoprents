@@ -280,11 +280,16 @@
 
                         <div class="col-md-12 mb-3">
                             <label for="name">Is shop vacant<span style="color:red">*</span></label>
-                            <select class="custom-select" name="vacant" required>
-                                <option value="0" {{$shop->vacant_status == 0 ? 'selected': ''}}>No</option>
-                                <option value="1" {{$shop->vacant_status == 1 ? 'selected': ''}}>Yes</option>
-                            </select>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="vacant" id="inlineRadio1" value="1" {{$shop->vacant_status == 1 ? 'selected': ''}}>
+                                <label class="form-check-label" for="inlineRadio1">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="vacant" id="inlineRadio2" value="0" {{$shop->vacant_status == 0 ? 'selected': ''}}>
+                                <label class="form-check-label" for="inlineRadio2">No</label>
+                            </div>
                         </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
