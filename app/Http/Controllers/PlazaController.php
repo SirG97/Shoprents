@@ -21,7 +21,7 @@ class PlazaController extends Controller
      */
     public function index(){
         $plazas = Plaza::withCount('shops')->with(['shops' => function($query){
-            
+
         }])->paginate(25);
 
         return view('plazas', ['plazas' => $plazas]);
