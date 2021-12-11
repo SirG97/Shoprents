@@ -4,8 +4,74 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "87007d07e57cf240dbd9fa0b8d5c422a",
+    "content-hash": "070acb6bbede3a067543419bb5b0f8b4",
     "packages": [
+        {
+            "name": "alexmg86/laravel-sub-query",
+            "version": "v1.9.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Alexmg86/laravel-sub-query.git",
+                "reference": "59550513ec13b635b85def15ddf431609f4689e3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Alexmg86/laravel-sub-query/zipball/59550513ec13b635b85def15ddf431609f4689e3",
+                "reference": "59550513ec13b635b85def15ddf431609f4689e3",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": ">=5.4",
+                "laravel/framework": ">5.0",
+                "php": ">=5.6.4"
+            },
+            "require-dev": {
+                "orchestra/testbench": ">=3.1",
+                "phpunit/phpunit": ">=5.7"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Alexmg86\\LaravelSubQuery\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Alexmg86\\LaravelSubQuery\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aleksei Morozov",
+                    "email": "alexmg86@mail.ru"
+                }
+            ],
+            "description": "Laravel subquery",
+            "homepage": "https://github.com/alexmg86/laravelsubquery",
+            "keywords": [
+                "laravel",
+                "limit relation",
+                "orderByRelation",
+                "php",
+                "query",
+                "sub",
+                "withAvg",
+                "withMax",
+                "withMin",
+                "withSum"
+            ],
+            "support": {
+                "issues": "https://github.com/Alexmg86/laravel-sub-query/issues",
+                "source": "https://github.com/Alexmg86/laravel-sub-query/tree/v1.9.9"
+            },
+            "time": "2021-04-23T10:02:10+00:00"
+        },
         {
             "name": "asm89/stack-cors",
             "version": "v2.0.3",

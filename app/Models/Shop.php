@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Alexmg86\LaravelSubQuery\Traits\LaravelSubQueryTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,6 +21,10 @@ class Shop extends Model
 
     public function payments(){
         return $this->hasMany(Payment::class);
+    }
+
+    public function latestPayment(){
+        return $this->hasOne(Payment::class)->latest();
     }
 
     public function getLastPaymentAttribute($value)

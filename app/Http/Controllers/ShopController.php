@@ -76,17 +76,25 @@ class ShopController extends Controller
     }
 
     public function expired(){
-        $shops = Shop::where('next_payment', '<', Carbon::now())->orderBy('shop_number', 'asc')->paginate(100);
-        return view('expiredshops',['shops' => $shops]);
+        $shops = Shop::where([['next_payment', '<', Carbon::now()], ['vacant_status', '=', '0']])->with(['latestPayment'])->orderBy('shop_number', 'asc')->paginate(100);
+        $amount_due =  0;
+        foreach($shops as $shop){
+            $amount_due += (float)$shop->latestPayment->amount;
+        }
+        return view('expiredshops',['shops' => $shops, 'amount_due' => $amount_due]);
     }
     public function almostDue(){
 //        $shops = Shop::where('next_payment', '<', Carbon::now()->subMonth())->orderBy('id', 'desc')->paginate(100);
         $shops = Shop::where([['next_payment', '<', Carbon::now()->addMonth()],
-                                ['next_payment', '>', Carbon::now()]])->orderBy('shop_number', 'asc')
-
-
+                                ['next_payment', '>', Carbon::now()]])->with(['latestPayment'])->orderBy('shop_number', 'asc')
             ->paginate(15);
-        return view('almostexpired',['shops' => $shops]);
+        $amount_due =  0;
+        foreach($shops as $shop){
+            $amount_due += (float)$shop->latestPayment->amount;
+        }
+
+
+        return view('almostexpired',['shops' => $shops, 'amount_due' => $amount_due]);
     }
 
     public function balance(){

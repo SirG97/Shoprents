@@ -17,4 +17,8 @@ class Plaza extends Model
     {
         return $this->hasMany(Shop::class);
     }
+
+    public function latestPayment(){
+        return $this->hasOneThrough(Payment::class, Shop::class);
+    }
 }

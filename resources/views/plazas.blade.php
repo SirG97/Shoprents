@@ -17,7 +17,7 @@
             <div class="col-md-12">
                 <div class="custom-panel card py-2">
                     <div class="font-weight-bold text-secondary mb-1 py-3 px-3">
-                        All shops
+                        All Plazas
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover ">
