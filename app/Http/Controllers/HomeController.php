@@ -35,7 +35,7 @@ class HomeController extends Controller
             ->orWhere('next_payment', '<', Carbon::now()->subMonth())
             ->orWhere('next_payment', '=', null)
             ->paginate(15);
-        $vacant = Shop::where(['vacant_status', '=', '0'])->count();
+        $vacant = Shop::where([['vacant_status', '=', '0']])->count();
         return view('home', ['total_shops' => $total,
                                     'expired_shops' => $expired,
                                     'shops' => $shops,
