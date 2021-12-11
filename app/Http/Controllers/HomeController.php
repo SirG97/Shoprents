@@ -27,19 +27,22 @@ class HomeController extends Controller
     public function index()
     {
         $total = Shop::all()->count();
-        $expired = Shop::where('next_payment', '<', Carbon::now())->orWhere('next_payment', '=', null)->count();
+        $expired = Shop::where([['next_payment', '<', Carbon::now()], ['vacant_status', '=', '0']])->orWhere('next_payment', '=', null)->count();
         $expireInOneMonth = Shop::where([['next_payment', '<', Carbon::now()->addMonth()],
             ['next_payment', '>', Carbon::now()]])->count();
-        $revenue = Payment::all()->sum('amount');
+//        $revenue = Payment::all()->sum('amount');
         $shops = Shop::where('next_payment', '<', Carbon::now()->addMonth())
             ->orWhere('next_payment', '<', Carbon::now()->subMonth())
             ->orWhere('next_payment', '=', null)
             ->paginate(15);
-
+        $vacant = Shop::where(['vacant_status', '=', '0'])->count();
         return view('home', ['total_shops' => $total,
                                     'expired_shops' => $expired,
                                     'shops' => $shops,
                                     'expire_in_one_month' => $expireInOneMonth,
-                                    'revenue' => number_format($revenue, 2, '.', ',')]);
+                                    'vacant' => $vacant,
+//                                    'revenue' => number_format($revenue, 2, '.', ',')
+            ]
+        );
     }
 }

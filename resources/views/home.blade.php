@@ -49,11 +49,11 @@
             <div class="col-md-6 col-xl-3">
                 <div class="card bg-c-blue order-card text-secondary">
                     <div class="card-body">
-                        <h6 class="text-primary">Total revenue</h6>
+                        <h6 class="text-primary">Vacant Shops</h6>
                         <h5 class="text-right">
                             <i class="fas fa-coins  float-left"></i>
                             <span>
-                                &#8358; {{$revenue}}
+                                &#8358; {{$vacant}}
                             </span>
                         </h5>
 
