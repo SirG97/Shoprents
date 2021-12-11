@@ -53,7 +53,7 @@
                         <h5 class="text-right">
                             <i class="fas fa-coins  float-left"></i>
                             <span>
-                                &#8358; {{$vacant}}
+                                {{$vacant}}
                             </span>
                         </h5>
 
