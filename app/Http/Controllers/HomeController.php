@@ -27,7 +27,7 @@ class HomeController extends Controller
     public function index()
     {
         $total = Shop::all()->count();
-        $expired = Shop::where([['next_payment', '<', Carbon::now()], ['vacant_status', '=', '0']])->orWhere('next_payment', '=', null)->count();
+        $expired = Shop::where([['next_payment', '<', Carbon::now()], ['vacant_status', '=', '0']])->orWhere([['next_payment', '=', null], ['vacant_status', '=', '0']])->count();
         $expireInOneMonth = Shop::where([['next_payment', '<', Carbon::now()->addMonth()],
             ['next_payment', '>', Carbon::now()]])->count();
 //        $revenue = Payment::all()->sum('amount');
