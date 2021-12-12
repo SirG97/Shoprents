@@ -55,8 +55,8 @@
                                         <td scope="row">{{ $shop['shop_number'] }}</td>
                                         <td scope="row">{{ $shop['name'] }}</td>
                                         <td>{{ $shop['phone'] }}</td>
-                                        <td>{{ $shop['last_payment'] }}</td>
-                                        <td>{{ $shop['next_payment'] }}</td>
+                                        <td>{{ $shop['last_payment'] !== null ? $shop['last_payment']->toFormattedDateString() : '' }}</td>
+                                        <td>{{ $shop['next_payment'] !== null ? $shop['next_payment']->toFormattedDateString() : ''}}</td>
                                         <td>
                                             <a href="/shop/{{ $shop['id'] }}" class="btn btn-sm btn-primary">View</a>
                                             <button type="submit"
