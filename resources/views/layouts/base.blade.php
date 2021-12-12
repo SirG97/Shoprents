@@ -94,7 +94,7 @@
                                 <span class="nav_link_icon">
                                  <i class="fas fa-fw fa-user-plus"></i>
                                 </span>
-                            <span class="nav_link_text">Expiring Shops</span>
+                            <span class="nav_link_text">Almost Due Shops(Expiring)</span>
                         </a>
                     </div>
                     <div class="nav_item prelative">
@@ -102,7 +102,7 @@
                                 <span class="nav_link_icon">
                                  <i class="fas fa-fw fa-exclamation-triangle"></i>
                                 </span>
-                            <span class="nav_link_text">Expired Shops</span>
+                            <span class="nav_link_text">Due Shops(Expired)</span>
                         </a>
                     </div>
                     <div class="nav_item prelative">
