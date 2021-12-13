@@ -75,6 +75,15 @@ class ShopController extends Controller
         return view('shop',['shop' => $shop, 'payments' => $payments, 'plazas' => $plazas]);
     }
 
+    public function paid(){
+        $shops = Shop::where([['next_payment', '>', Carbon::now()->addMonth()], ['vacant_status', '=', '0']])->with(['latestPayment'])->orderBy('shop_number', 'asc')->paginate(100);
+        $amount_due =  0;
+        foreach($shops as $shop){
+            $amount_due += (float)$shop->latestPayment->amount;
+        }
+        return view('paid',['shops' => $shops, 'paid_amount' => $amount_due]);
+    }
+
     public function expired(){
         $shops = Shop::where([['next_payment', '<', Carbon::now()], ['vacant_status', '=', '0']])->with(['latestPayment'])->orderBy('shop_number', 'asc')->paginate(100);
         $amount_due =  0;

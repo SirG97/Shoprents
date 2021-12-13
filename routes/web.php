@@ -33,6 +33,7 @@ Route::post('/plaza/add', [App\Http\Controllers\PlazaController::class, 'store']
 Route::get('/shops', [App\Http\Controllers\ShopController::class, 'index'])->name('shops');
 Route::get('/new', [App\Http\Controllers\ShopController::class, 'create'])->name('shops.create');
 Route::post('/shops/add', [App\Http\Controllers\ShopController::class, 'store'])->name('shops.store');
+Route::get('/shops/paid', [App\Http\Controllers\ShopController::class, 'paid'])->name('shops.paid');
 Route::get('/shops/expired', [App\Http\Controllers\ShopController::class, 'expired'])->name('shops.expired');
 Route::get('/shops/almostdue', [App\Http\Controllers\ShopController::class, 'almostDue'])->name('shops.almost');
 Route::get('/shop/{shop}', [App\Http\Controllers\ShopController::class, 'show'])->name('shops.show');

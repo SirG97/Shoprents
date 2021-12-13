@@ -70,7 +70,7 @@
                                <span class="nav_link_icon">
                                 <i class="fas fa-fw fa-plus-square"></i>
                                </span>
-                            <span class="nav_link_text">New Plaza</span>
+                            <span class="nav_link_text">Create Plaza</span>
                         </a>
                     </div>
                     <div class="nav_item prelative">
@@ -90,11 +90,19 @@
                         </a>
                     </div>
                     <div class="nav_item prelative">
+                        <a href="/shops/paid" class="nav_link nav_flex {{ request()->is('/shops/paid') ? 'active': ''}}">
+                                <span class="nav_link_icon">
+                                 <i class=" fas fa-check"></i>
+                                </span>
+                            <span class="nav_link_text">Paid Shops</span>
+                        </a>
+                    </div>
+                    <div class="nav_item prelative">
                         <a href="/shops/almostdue" class="nav_link nav_flex {{ request()->is('/shops/almostdue') ? 'active': ''}}">
                                 <span class="nav_link_icon">
                                  <i class="fas fa-fw fa-user-plus"></i>
                                 </span>
-                            <span class="nav_link_text">Almost Due Shops(Expiring)</span>
+                            <span class="nav_link_text">Almost Due Shops</span>
                         </a>
                     </div>
                     <div class="nav_item prelative">
@@ -108,7 +116,7 @@
                     <div class="nav_item prelative">
                         <a href="/shops/balance_due" class="nav_link nav_flex {{ request()->is('/shops/balance_due') ? 'active': ''}}">
                                 <span class="nav_link_icon">
-                                 <i class="fas fa-fw fa-battery-quarter"></i>
+                                 <i class="fas fa-fw fa-trophy"></i>
                                 </span>
                             <span class="nav_link_text">Balance Due Shops</span>
                         </a>
