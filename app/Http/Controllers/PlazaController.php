@@ -91,7 +91,7 @@ class PlazaController extends Controller
     }
 
     public function almostDuePlaza(Plaza $plaza){
-        $shops = Shop::where([['next_payment', '<', Carbon::now()->addMonth()], ['next_payment', '>', Carbon::now()],
+        $shops = Shop::where([['plaza_id', '=', $plaza->id],['next_payment', '<', Carbon::now()->addMonth()], ['next_payment', '>', Carbon::now()],
             ['vacant_status', '=', '0']])->with(['plaza','latestPayment'])->orderBy('shop_number', 'asc')->paginate(50);
         $amount =  0;
         foreach($shops as $shop){
