@@ -3,6 +3,7 @@
 @section('icon', 'fa-tachometer-a')
 @section('content')
     <div class="container-fluid">
+        @include('search')
         @if (session('success'))
             <div class="alert alert-success" role="alert">
                 {{ session('success') }}

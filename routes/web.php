@@ -34,6 +34,7 @@ Route::get('/shops', [App\Http\Controllers\ShopController::class, 'index'])->nam
 Route::get('/new', [App\Http\Controllers\ShopController::class, 'create'])->name('shops.create');
 Route::post('/shops/add', [App\Http\Controllers\ShopController::class, 'store'])->name('shops.store');
 Route::get('/shops/paid', [App\Http\Controllers\ShopController::class, 'paid'])->name('shops.paid');
+Route::get('/shops/{terms}/search', [App\Http\Controllers\ShopController::class, 'search'])->name('shops.search');
 Route::get('/shops/expired', [App\Http\Controllers\ShopController::class, 'expired'])->name('shops.expired');
 Route::get('/shops/almostdue', [App\Http\Controllers\ShopController::class, 'almostDue'])->name('shops.almost');
 Route::get('/shop/{shop}', [App\Http\Controllers\ShopController::class, 'show'])->name('shops.show');

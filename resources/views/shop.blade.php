@@ -19,6 +19,7 @@
                     <div class="d-flex justify-content-between py-2 px-3">
                         <div class="text-secondary mb-1">
                             <div class="font-weight-bold text-capitalize" style="font-size: 22px">{{$shop->shop_number}}</div>
+                            <div class="order-name text-capitalize">Occupant: {{$shop->plaza->name}}</div>
                             <div class="order-name text-capitalize">Occupant: {{$shop->name}}</div>
                             <div class="order-name text-capitalize">Phone: {{$shop->phone}}</div>
                             <div class="order-name ">Last payment: {{$shop->last_payment == null ? 'No Payment yet': $shop->last_payment->isoFormat('MMMM Do YYYY')}}</div>

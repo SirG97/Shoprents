@@ -70,13 +70,15 @@ class ShopController extends Controller
     public function show(Shop $shop){
 
         $payments = Payment::where('shop_id', $shop->id)->paginate(100);
+//        $shop_plaza = Shop::where('id', $shop->id)->with('plaza')->first();
+////        dd($shop_plaza->plaza->name);
         $plazas = Plaza::all();
 
         return view('shop',['shop' => $shop, 'payments' => $payments, 'plazas' => $plazas]);
     }
 
     public function paid(){
-        $shops = Shop::where([['next_payment', '>', Carbon::now()->addMonth()], ['vacant_status', '=', '0']])->with(['latestPayment'])->orderBy('shop_number', 'asc')->paginate(100);
+        $shops = Shop::where([['next_payment', '>', Carbon::now()->addMonth()], ['vacant_status', '=', '0']])->with(['plaza','latestPayment'])->orderBy('shop_number', 'asc')->paginate(100);
         $amount_due =  0;
         foreach($shops as $shop){
             $amount_due += (float)$shop->latestPayment->amount;
@@ -85,7 +87,7 @@ class ShopController extends Controller
     }
 
     public function expired(){
-        $shops = Shop::where([['next_payment', '<', Carbon::now()], ['vacant_status', '=', '0']])->with(['latestPayment'])->orderBy('shop_number', 'asc')->paginate(100);
+        $shops = Shop::where([['next_payment', '<', Carbon::now()], ['vacant_status', '=', '0']])->with(['plaza','latestPayment'])->orderBy('shop_number', 'asc')->paginate(100);
         $amount_due =  0;
         foreach($shops as $shop){
             $amount_due += (float)$shop->latestPayment->amount;
@@ -95,7 +97,7 @@ class ShopController extends Controller
     public function almostDue(){
 //        $shops = Shop::where('next_payment', '<', Carbon::now()->subMonth())->orderBy('id', 'desc')->paginate(100);
         $shops = Shop::where([['next_payment', '<', Carbon::now()->addMonth()],
-                                ['next_payment', '>', Carbon::now()]])->with(['latestPayment'])->orderBy('shop_number', 'asc')
+                                ['next_payment', '>', Carbon::now()]])->with(['plaza','latestPayment'])->orderBy('shop_number', 'asc')
             ->paginate(15);
         $amount_due =  0;
         foreach($shops as $shop){
@@ -159,9 +161,19 @@ class ShopController extends Controller
      * @param  \App\Models\Shop  $shop
      * @return \Illuminate\Http\Response
      */
-    public function edit(Shop $id)
+    public function search($terms)
     {
-        //
+
+        $shops = Shop::where('shop_number', 'LIKE', "%{$terms}%")
+            ->orWhere('name', 'LIKE', "%{$terms}%")
+            ->orWhere('phone', 'LIKE', "%{$terms}%")->get();
+
+        if($shops->count() > 0){
+            return response()->json(['data' => $shops, 'status' => 'success', 'message' => 'Shops retrieved successfully']);
+        }else{
+            return response()->json(['data' => [], 'status' => 'success', 'message' => 'Shops retrieval failed']);
+        }
+
     }
 
     /**

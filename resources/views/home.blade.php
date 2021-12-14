@@ -3,6 +3,7 @@
 @section('icon', 'fa-tachometer-a')
 @section('content')
     <div class="container-fluid">
+        @include('search')
         <div class="row">
             <div class="col-md-6 col-xl-3">
                 <div class="card bg-c-blue order-card text-secondary">

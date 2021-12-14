@@ -23,13 +23,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
     })
 
     // Show search dropdown
-    const search = $('#search_order');
+    const search = $('#search');
     const search_result = $('.search-result');
     search.on('input', ()=>{
         search.addClass('no-bottom-borders');
         $('.search-result').css('display','block');
         let terms = search.val();
-        const url = `/orders/${terms}/search`;
+        const url = `/shops/${terms}/search`;
         $.ajax({
             url: url,
             type: 'GET',
@@ -37,29 +37,30 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 search_result.html('loading...');
             },
             success: function (response) {
-                let data = JSON.parse(response);
-                console.log(JSON.parse(response))
+                console.log(response.data);
+                // let data = JSON.parse(response);
+                // console.log(JSON.parse(response))
                 let ul = '<ul class="list-group list-group-flush">';
-                $.each(data, (key, value) => {
-                    $.each(value, (index, item)=>{
-                        console.log(item);
+                search_result.html('loading...1');
+                $.each(response.data, (key, value) => {
+                    // console.log(key, value.shop_number);
                         ul += `<li class="list-group list-group-item">
-                                   <a href="/order/${item.order_no}">
+                                   <a href="/shop/${value.id}">
                                     <div class="d-flex w-100 justify-content-between">
-                                        <h6>${item.parcel_name}  by ${item.fullname}</h6>
-                                        <small>${item.order_no}</small>
+                                        <h6>${value.shop_number} </h6>
+                                         <small>${value.phone}</small>
                                     </div>
-                                    <p class="mb-1">${item.email}</p> 
+                                    <p class="mb-1">${value.name}</p> 
                                     </a>
                                 </li>`;
-                    });
+
                 });
                 ul += '</ul>';
-                $('.search-result').html(ul);
+                search_result.html(ul);
             },
             error: function(request, error){
                 let errors = JSON.parse(request.responseText);
-                $('#search-result-list').html('No r');
+                $('#search-result-list').html('No results');
             }
         });
     });

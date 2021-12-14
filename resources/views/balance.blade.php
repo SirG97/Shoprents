@@ -15,7 +15,9 @@
                             <thead class="trx-bg-head text-secondary py-3 px-3">
                             <tr>
                                 <th scope="col">Status</th>
+                                <th scope="col">Plaza</th>
                                 <th scope="col">Shop number</th>
+                                <th scope="col">Occupant</th>
                                 <th scope="col">Phone</th>
 
                                 <th scope="col">Last Payment</th>
@@ -45,7 +47,9 @@
                                                     <span class='pulse-button pulse-button-warn'></span>
                                                     <span class="badge badge-warning">Balance Almost Due</span>
                                                 </td>
+                                                <td>{{ $shop->plaza['name'] }}</td>
                                                 <td scope="row">{{ $shop['shop_number'] }}</td>
+                                                <td >{{ $shop['name'] }}</td>
                                                 <td>{{ $shop['phone'] }}</td>
 
                                                 <td>{{ $shop['last_bal_payment'] !== null ? $shop['last_bal_payment']->toFormattedDateString() : '' }}</td>
