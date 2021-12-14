@@ -1,5 +1,5 @@
 @extends('layouts.base')
-@section('title', 'Paid Shops')
+@section('title', 'Paid Plaza Shops')
 @section('icon', 'fa-tachometer-alt')
 @section('content')
     <div class="container-fluid">
@@ -8,9 +8,11 @@
             <div class="col-md-12">
                 <div class="custom-panel card py-2">
                     <div class="font-weight-bold text-secondary mb-1 py-3 px-3">
-                        Paid shops
+                        Paid Plaza shops
                         <p>Amount realized: &#8358  {{ number_format($amount) }}</p>
-
+                        <div class="mt-2">
+                            <a href="{{ url()->previous() }}" class="btn btn-secondary">Back</a>
+                        </div>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover ">
@@ -71,7 +73,7 @@
                             @else
                                 <tr>
                                     <td colspan="7">
-                                        <div class="d-flex justify-content-center"> No Shops have yet</div>
+                                        <div class="d-flex justify-content-center"> No Plazas shops have paid</div>
                                     </td>
                                 </tr>
                             @endif

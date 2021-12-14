@@ -73,30 +73,43 @@ class PlazaController extends Controller
         return view('plaza', ['plaza' => $plaza, 'shops' => $shops, ]);
     }
 
-    public function expired(){
-        $shops = Shop::where('next_payment', '<', Carbon::now())->orderBy('id', 'desc')->paginate(100);
-        return view('expiredshops',['shops' => $shops]);
-    }
-    public function almostDue(){
-//        $shops = Shop::where('next_payment', '<', Carbon::now()->subMonth())->orderBy('id', 'desc')->paginate(100);
-        $shops = Shop::where([['next_payment', '<', Carbon::now()->addMonth()],
-            ['next_payment', '>', Carbon::now()->subMonth()]])
-
-
-            ->paginate(15);
-        return view('almostexpired',['shops' => $shops]);
-    }
-
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Shop  $shop
+     * @param Plaza $plaza
      * @return \Illuminate\Http\Response
      */
-    public function edit(Shop $id)
+    public function paidPlaza(Plaza $plaza)
     {
-        //
+        $shops = Shop::where([['plaza_id', '=', $plaza->id],['next_payment', '>', Carbon::now()->addMonth()],
+            ['vacant_status', '=', '0']])->with(['plaza','latestPayment'])->orderBy('shop_number', 'asc')->paginate(50);
+        $amount =  0;
+        foreach($shops as $shop){
+            $amount += (float)$shop->latestPayment->amount;
+        }
+        return view('paidplaza',['shops' => $shops, 'amount' => $amount, 'plaza' => $plaza]);
     }
+
+    public function almostDuePlaza(Plaza $plaza){
+        $shops = Shop::where([['next_payment', '<', Carbon::now()->addMonth()], ['next_payment', '>', Carbon::now()],
+            ['vacant_status', '=', '0']])->with(['plaza','latestPayment'])->orderBy('shop_number', 'asc')->paginate(50);
+        $amount =  0;
+        foreach($shops as $shop){
+            $amount += (float)$shop->latestPayment->amount;
+        }
+        return view('almostdueplaza',['shops' => $shops, 'amount' => $amount, 'plaza' => $plaza]);
+    }
+
+    public function expiredPlaza(Plaza $plaza){
+        $shops = Shop::where([['plaza_id', '=', $plaza->id],['next_payment', '<', Carbon::now()],
+            ['vacant_status', '=', '0']])->with(['plaza','latestPayment'])->orderBy('shop_number', 'asc')->paginate(50);
+        $amount =  0;
+        foreach($shops as $shop){
+            $amount += (float)$shop->latestPayment->amount;
+        }
+        return view('expiredplaza',['shops' => $shops, 'amount' => $amount, 'plaza' => $plaza]);
+    }
+
 
     /**
      * Update the specified resource in storage.

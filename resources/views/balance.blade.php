@@ -19,7 +19,6 @@
                                 <th scope="col">Shop number</th>
                                 <th scope="col">Occupant</th>
                                 <th scope="col">Phone</th>
-
                                 <th scope="col">Last Payment</th>
                                 <th scope="col">Due by</th>
                                 <th scope="col">Action</th>

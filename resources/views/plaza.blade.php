@@ -20,6 +20,11 @@
                     <div class="font-weight-bold text-secondary mb-1 py-3 px-3">
                       Plaza:  {{$plaza->name}} <br>
                         Address: {{$plaza->address}}
+                        <div class="btn-group-sm mt-2">
+                            <a href="/plaza/{{$plaza->id}}/paid" class="btn btn-success">Paid</a>
+                            <a href="/plaza/{{$plaza->id}}/almostdue" class="btn btn-warning">Almost due</a>
+                            <a href="/plaza/{{$plaza->id}}/expired" class="btn btn-danger">Expired</a>
+                        </div>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover ">

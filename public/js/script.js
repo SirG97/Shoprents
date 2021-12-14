@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     // ul += '<li class="list-group list-group-item"><div class="d-flex w-100 justify-content-between"><h6>' + item.firstname + ' ' + item.surname + '</h6><small>'+ item.phone +'</small></div><p class="mb-1">'+ item.email +'</p></li>';
     search.on('blur', ()=>{
         $('#search').removeClass('no-bottom-borders');
-        // $('.search-result').css('display','none');
+        $('.search-result').css('display','none');
     });
 
     const search_contribution = $('#search-contribution');

@@ -25,6 +25,9 @@ Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])-
 
 Route::get('/plazas', [App\Http\Controllers\PlazaController::class, 'index'])->name('plazas');
 Route::get('/plaza/{plaza}', [App\Http\Controllers\PlazaController::class, 'show'])->name('plaza');
+Route::get('/plaza/{plaza}/paid', [App\Http\Controllers\PlazaController::class, 'paidPlaza'])->name('plaza.paid');
+Route::get('/plaza/{plaza}/almostdue', [App\Http\Controllers\PlazaController::class, 'almostDuePlaza'])->name('plaza.almostdue');
+Route::get('/plaza/{plaza}/expired', [App\Http\Controllers\PlazaController::class, 'expiredPlaza'])->name('plaza.expired');
 Route::post('/plaza/update', [App\Http\Controllers\PlazaController::class, 'update'])->name('plaza.edit');
 
 Route::get('/newplaza', [App\Http\Controllers\PlazaController::class, 'create'])->name('plaza.create');
