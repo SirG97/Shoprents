@@ -9,7 +9,7 @@
                 <div class="custom-panel card py-2">
                     <div class="font-weight-bold text-secondary mb-1 py-3 px-3">
                         Paid shops
-                        <p>Amount realized: &#8358  {{ number_format($amount) }}</p>
+                        <p>Amount realized: &#8358  {{ number_format($paid_amount) }}</p>
 
                     </div>
                     <div class="table-responsive">
