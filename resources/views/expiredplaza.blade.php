@@ -4,15 +4,16 @@
 @section('content')
     <div class="container-fluid">
         @include('search')
-        <div class="row">
+        <div class="row print">
             <div class="col-md-12">
                 <div class="custom-panel card py-2">
                     <div class="font-weight-bold text-secondary mb-1 py-3 px-3">
                         <p>Exipired plaza shops</p>
                         <p>Plaza: {{ $plaza->name }}</p>
                         <p>Expected Amount: &#8358  {{ number_format($amount) }}</p>
-                        <div class="mt-2">
+                        <div class="btn-group no-print mt-2">
                             <a href="{{ url()->previous() }}" class="btn btn-secondary">Back</a>
+                            <a href="#" onclick="window.print();return false;" class="btn btn-primary">Print</a>
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -27,7 +28,7 @@
 
                                 <th scope="col">Last Payment</th>
                                 <th scope="col">Due by</th>
-                                <th scope="col">Action</th>
+                                <th scope="col" class="no-print">Action</th>
                             </tr>
                             </thead>
                             <tbody class="table-style">
@@ -65,7 +66,7 @@
 
                                         <td>{{ $shop['last_payment'] !== null ? $shop['last_payment']->toFormattedDateString() : '' }}</td>
                                         <td>{{ $shop['next_payment'] !== null ? $shop['next_payment']->toFormattedDateString() : ''}}</td>
-                                        <td><a href="/shop/{{ $shop['id'] }}" class="btn btn-sm btn-primary">View</a></td>
+                                        <td class="no-print"><a href="/shop/{{ $shop['id'] }}" class="btn btn-sm btn-primary">View</a></td>
 
                                     </tr>
                                 @endforeach

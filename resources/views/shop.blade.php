@@ -13,7 +13,7 @@
                 {{ session('error') }}
             </div>
         @endif
-        <div class="row ">
+        <div class="row print">
             <div class="col-md-12">
                 <div class="custom-panel card ">
                     <div class="d-flex justify-content-between py-2 px-3">
@@ -31,7 +31,7 @@
                             <div class="order-name">Next Balance payment: {{$shop->next_bal_payment == null ? 'N/A': $shop->next_bal_payment->isoFormat('MMMM Do YYYY')}}</div>
 
                                 <button type="submit"
-                                        class="btn btn-sm btn-primary"
+                                        class="btn btn-sm btn-primary no-print"
                                         data-toggle="modal"
                                         data-target="#occupyModal"
                                         data-id="{{ $shop->id }}"
@@ -70,17 +70,19 @@
                         <div class="font-weight-bold text-secondary mb-1 d-flex justify-content-end mr-1">
                             <div class="text-right">
                                     <button type="submit"
-                                            class="btn btn-sm btn-primary"
+                                            class="btn btn-sm btn-primary no-print"
                                             data-toggle="modal"
                                             data-target="#paymentModal"
                                             data-id="{{ $shop->id }}"
                                     >Mark payment</button>
                                 <button type="submit"
-                                        class="btn btn-sm btn-secondary"
+                                        class="btn btn-sm btn-secondary no-print"
                                         data-toggle="modal"
                                         data-target="#balanceModal"
                                         data-id="{{ $shop->id }}"
                                 >Pay Balance</button>
+                                <button onclick="window.print();return false;"
+                                        class="btn btn-sm btn-primary no-print">Print</button>
                                 </div>
                             </div>
 
@@ -98,7 +100,7 @@
                                     <th scope="col">Due by</th>
                                     <th scope="col">Balance Paid on</th>
                                     <th scope="col">Balance due by</th>
-                                    <th scope="col">Action</th>
+                                    <th scope="col" class="no-print">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -130,7 +132,7 @@
                                             <td>
 
                                                 <button type="submit"
-                                                        class="btn btn-sm btn-danger"
+                                                        class="btn btn-sm btn-danger no-print"
                                                         data-toggle="modal"
                                                         data-target="#deletePaymentModal"
                                                         data-id="{{ $payment->id }}"

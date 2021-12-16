@@ -1,0 +1,13 @@
+header, .nav-sidebar, #hamburger{
+    visibility: hidden;
+}
+
+
+.print{
+    visibility: visible;
+}
+
+.no-print{
+    visibility: hidden;
+    display: none;
+}

@@ -90,6 +90,12 @@ class PlazaController extends Controller
         return view('paidplaza',['shops' => $shops, 'amount' => $amount, 'plaza' => $plaza]);
     }
 
+        public function vacantPlaza(Plaza $plaza){
+            $shops = Shop::where([['plaza_id', '=', $plaza->id], ['vacant_status', '=', '1']])->with(['plaza','latestPayment'])->orderBy('shop_number', 'asc')->paginate(50);
+
+            return view('vacant',['shops' => $shops, 'plaza' => $plaza]);
+        }
+
     public function almostDuePlaza(Plaza $plaza){
         $shops = Shop::where([['plaza_id', '=', $plaza->id],['next_payment', '<', Carbon::now()->addMonth()], ['next_payment', '>', Carbon::now()],
             ['vacant_status', '=', '0']])->with(['plaza','latestPayment'])->orderBy('shop_number', 'asc')->paginate(50);
@@ -109,6 +115,7 @@ class PlazaController extends Controller
         }
         return view('expiredplaza',['shops' => $shops, 'amount' => $amount, 'plaza' => $plaza]);
     }
+
 
 
     /**

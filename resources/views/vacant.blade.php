@@ -1,5 +1,5 @@
 @extends('layouts.base')
-@section('title', 'Almost due Shops')
+@section('title', 'Vacant Plaza Shops')
 @section('icon', 'fa-tachometer-alt')
 @section('content')
     <div class="container-fluid">
@@ -8,10 +8,9 @@
             <div class="col-md-12">
                 <div class="custom-panel card py-2">
                     <div class="font-weight-bold text-secondary mb-1 py-3 px-3">
-                        <p>Almost due plaza shops</p>
+                        <p>Exipired plaza shops</p>
                         <p>Plaza: {{ $plaza->name }}</p>
-                        <p>Expected Amount: &#8358  {{ number_format($amount) }}</p>
-                        <div class="btn-group no-print mt-2">
+                        <div class="d-block btn-group no-print mt-2">
                             <a href="{{ url()->previous() }}" class="btn btn-secondary">Back</a>
                             <a href="#" onclick="window.print();return false;" class="btn btn-primary">Print</a>
                         </div>
@@ -75,7 +74,7 @@
                             @else
                                 <tr>
                                     <td colspan="7">
-                                        <div class="d-flex justify-content-center"> No Shops have yet</div>
+                                        <div class="d-flex justify-content-center"> No vacant shops in this plaza</div>
                                     </td>
                                 </tr>
                             @endif

@@ -14,16 +14,17 @@
                 {{ session('error') }}
             </div>
         @endif
-        <div class="row">
+        <div class="row print">
             <div class="col-md-12">
                 <div class="custom-panel card py-2">
                     <div class="font-weight-bold text-secondary mb-1 py-3 px-3">
                       Plaza:  {{$plaza->name}} <br>
                         Address: {{$plaza->address}}
-                        <div class="btn-group-sm mt-2">
+                        <div class="btn-group-sm mt-2 no-print">
                             <a href="/plaza/{{$plaza->id}}/paid" class="btn btn-success">Paid</a>
                             <a href="/plaza/{{$plaza->id}}/almostdue" class="btn btn-warning">Almost due</a>
                             <a href="/plaza/{{$plaza->id}}/expired" class="btn btn-danger">Expired</a>
+                            <a href="/plaza/{{$plaza->id}}/vacant" class="btn btn-info">Vacant</a>
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -36,7 +37,7 @@
                                 <th scope="col">Phone</th>
                                 <th scope="col">Last Payment</th>
                                 <th scope="col">Due by</th>
-                                <th scope="col">Action</th>
+                                <th scope="col" class="no-print">Action</th>
                             </tr>
                             </thead>
                             <tbody class="table-style">
@@ -63,7 +64,7 @@
                                         <td>{{ $shop['phone'] }}</td>
                                         <td>{{ $shop['last_payment'] !== null ? $shop['last_payment']->toFormattedDateString() : '' }}</td>
                                         <td>{{ $shop['next_payment'] !== null ? $shop['next_payment']->toFormattedDateString() : ''}}</td>
-                                        <td>
+                                        <td class="no-print">
                                             <a href="/shop/{{ $shop['id'] }}" class="btn btn-sm btn-primary">View</a>
                                             <button type="submit"
                                                     class="btn btn-sm btn-danger"

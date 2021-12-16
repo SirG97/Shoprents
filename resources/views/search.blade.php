@@ -1,5 +1,5 @@
 
-    <div class="row">
+    <div class="row no-print">
         <div class="col-md-6 offset-md-6">
             <div class="searchbox mt-0 mr-0">
                 <div class="form-group has-search">
