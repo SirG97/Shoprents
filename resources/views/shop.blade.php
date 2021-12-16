@@ -82,7 +82,7 @@
                                         data-id="{{ $shop->id }}"
                                 >Pay Balance</button>
                                 <button onclick="window.print();return false;"
-                                        class="btn btn-sm btn-primary no-print">Print</button>
+                                        class="btn btn-sm btn-info no-print">Print</button>
                                 </div>
                             </div>
 
