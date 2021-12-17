@@ -9,7 +9,7 @@
                 <div class="custom-panel card py-2">
                     <div class="font-weight-bold text-secondary mb-1 py-3 px-3">
                         Almost due shops
-                        <p>Expected amount : &#8358  {{ number_format($amount_due) }}</p>
+                        <h3>Expected amount : <span class="text-danger"> &#8358  {{ number_format($amount_due) }}</span></h3>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover ">
@@ -19,6 +19,7 @@
                                 <th scope="col">Plaza</th>
                                 <th scope="col">Shop number</th>
                                 <th scope="col">Occupant</th>
+                                <th scope="col">Amount</th>
                                 <th scope="col">Phone</th>
 
                                 <th scope="col">Last Payment</th>
@@ -36,6 +37,11 @@
                                         <td>{{ $shop->plaza['name'] }}</td>
                                         <td scope="row">{{ $shop['shop_number'] }}</td>
                                         <td>{{ $shop['name'] }}</td>
+                                        <td scope="row">
+                                            @if($shop['latestPayment'] !== null)
+                                                &#8358 {{ number_format($shop['latestPayment']->amount) }}
+                                            @endif
+                                        </td>
                                         <td>{{ $shop['phone'] }}</td>
 
                                         <td>{{ $shop['last_payment'] !== null ? $shop['last_payment']->toFormattedDateString() : '' }}</td>

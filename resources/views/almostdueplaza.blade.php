@@ -10,7 +10,7 @@
                     <div class="font-weight-bold text-secondary mb-1 py-3 px-3">
                         <p>Almost due plaza shops</p>
                         <p>Plaza: {{ $plaza->name }}</p>
-                        <p>Expected Amount: &#8358  {{ number_format($amount) }}</p>
+                        <h3>Expected Amount: <span class="text-danger"> &#8358  {{ number_format($amount) }}</span></h3>
                         <div class="btn-group no-print mt-2">
                             <a href="{{ url()->previous() }}" class="btn btn-secondary">Back</a>
                             <a href="#" onclick="window.print();return false;" class="btn btn-primary">Print</a>
@@ -24,6 +24,7 @@
                                 <th scope="col">Plaza</th>
                                 <th scope="col">Shop number</th>
                                 <th scope="col">Occupant</th>
+                                <th scope="col">Amount</th>
                                 <th scope="col">Phone</th>
 
                                 <th scope="col">Last Payment</th>
@@ -62,6 +63,11 @@
                                         <td>{{ $shop->plaza['name'] }}</td>
                                         <td scope="row">{{ $shop['shop_number'] }}</td>
                                         <td scope="row">{{ $shop['name'] }}</td>
+                                        <td scope="row">
+                                            @if($shop['latestPayment'] !== null)
+                                                &#8358 {{ number_format($shop['latestPayment']->amount) }}
+                                            @endif
+                                        </td>
                                         <td>{{ $shop['phone'] }}</td>
 
                                         <td>{{ $shop['last_payment'] !== null ? $shop['last_payment']->toFormattedDateString() : '' }}</td>

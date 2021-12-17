@@ -21,7 +21,7 @@
                         Plaza:  {{$plaza->name}} <br>
                         Address: {{$plaza->address}}
                         <br>
-                        Paid + Almost Due: &#8358 {{ number_format($amount, 2) }}
+                        <h3>Total  Revenue = <span class="text-danger"> &#8358  {{ number_format($amount) }}</span></h3>
                         <div class="btn-group-sm mt-2 no-print">
                             <a href="/plaza/{{$plaza->id}}/paid" class="btn btn-success">Paid</a>
                             <a href="/plaza/{{$plaza->id}}/almostdue" class="btn btn-warning">Almost due</a>
@@ -36,6 +36,7 @@
                                 <th scope="col">Status</th>
                                 <th scope="col">Shop number</th>
                                 <th scope="col">Occupant</th>
+                                <th scope="col">Amount</th>
                                 <th scope="col">Phone</th>
                                 <th scope="col">Last Payment</th>
                                 <th scope="col">Due by</th>
@@ -63,6 +64,11 @@
                                         </td>
                                         <td scope="row">{{ $shop['shop_number'] }}</td>
                                         <td scope="row">{{ $shop['name'] }}</td>
+                                        <td scope="row">
+                                            @if($shop['latestPayment'] !== null)
+                                                &#8358 {{ number_format($shop['latestPayment']->amount) }}
+                                            @endif
+                                        </td>
                                         <td>{{ $shop['phone'] }}</td>
                                         <td>{{ $shop['last_payment'] !== null ? $shop['last_payment']->toFormattedDateString() : '' }}</td>
                                         <td>{{ $shop['next_payment'] !== null ? $shop['next_payment']->toFormattedDateString() : ''}}</td>

@@ -68,7 +68,7 @@ class PlazaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Plaza $plaza){
-        $shops = Shop::where('plaza_id', $plaza->id)->orderBy('shop_number', 'asc')->paginate(100);
+        $shops = Shop::where('plaza_id', $plaza->id)->with(['plaza','latestPayment'])->orderBy('shop_number', 'asc')->paginate(100);
         // Paid Shop
         $paid_almost = Shop::where([['plaza_id', '=', $plaza->id],['next_payment', '>', Carbon::now()],
             ['vacant_status', '=', '0']])->with(['plaza','latestPayment'])->orderBy('shop_number', 'asc')->paginate(50);
@@ -76,6 +76,7 @@ class PlazaController extends Controller
         foreach($paid_almost as $shop){
             $amount += (float)$shop->latestPayment->amount;
         }
+//        dd($shops[0]['latestPayment']['amount']);
         return view('plaza', ['plaza' => $plaza, 'shops' => $shops, 'amount' => $amount]);
     }
 
