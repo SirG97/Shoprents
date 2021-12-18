@@ -20,6 +20,12 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/print.css') }}" rel="stylesheet" media="print">
+
+    <style>
+        .table td, .table th {
+            border-top: 2px solid #444;
+        }
+    </style>
 </head>
 <body >
 <div id="app">
