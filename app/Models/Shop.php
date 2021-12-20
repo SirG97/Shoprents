@@ -27,6 +27,10 @@ class Shop extends Model
         return $this->hasOne(Payment::class)->latest();
     }
 
+    public function latestPayments(){
+        return $this->hasMany(Payment::class)->where('payments.created_at', '>', Carbon::now());
+    }
+
     public function getLastPaymentAttribute($value)
     {
         if($value !== null or !empty($value)){

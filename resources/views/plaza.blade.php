@@ -67,7 +67,7 @@
                                         <td scope="row">{{ $shop['name'] }}</td>
                                         <td scope="row">
                                             @if($shop['latestPayment'] !== null)
-                                                &#8358 {{ number_format($shop['latestPayment']->amount) }}
+                                                ₦{{ number_format($shop['latestPayment']->amount) }}
                                             @endif
                                         </td>
                                         <td>{{ $shop['phone'] }}</td>

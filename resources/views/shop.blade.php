@@ -108,10 +108,10 @@
                                 @if(!empty($payments) && count($payments) > 0)
                                     @foreach($payments as $payment)
                                         <tr>
-                                            <td>&#8358 {{ number_format($payment['amount'], 2) }}</td>
-                                            <td>&#8358 {{ number_format($payment['paid'], 2) }}</td>
-                                            <td>&#8358 {{ number_format($payment['balance'], 2) }}</td>
-                                            <td>&#8358 {{ number_format($payment['bal_brought_fwd'], 2) }}</td>
+                                            <td>₦{{ number_format($payment['amount'], 2) }}</td>
+                                            <td>₦{{ number_format($payment['paid'], 2) }}</td>
+                                            <td>₦{{ number_format($payment['balance'], 2) }}</td>
+                                            <td>₦{{ number_format($payment['bal_brought_fwd'], 2) }}</td>
                                             <td>
                                                 @if($payment['duration'] === "24")
                                                     <span>2 years</span>

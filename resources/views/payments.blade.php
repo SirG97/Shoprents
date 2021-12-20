@@ -37,28 +37,28 @@
                                         <td scope="row">{{ $payment->shop['shop_number'] }}</td>
                                         <td>
                                             @if($payment['amount'] != false)
-                                                &#8358  {{ number_format($payment['amount'], 2) }}
+                                                ₦{{ number_format($payment['amount'], 2) }}
                                             @else
                                                 -
                                             @endif
                                         </td>
                                         <td>
                                             @if($payment['paid'] != false)
-                                                &#8358  {{ number_format($payment['paid'], 2) }}
+                                                ₦{{ number_format($payment['paid'], 2) }}
                                             @else
                                                 -
                                             @endif
                                         </td>
                                         <td>
                                             @if($payment['balance'] != false)
-                                                &#8358  {{ number_format($payment['balance'], 2) }}
+                                                ₦{{ number_format($payment['balance'], 2) }}
                                             @else
                                                 -
                                             @endif
                                         </td>
                                         <td>
                                             @if($payment['bal_brought_fwd'] != false)
-                                                &#8358  {{ number_format($payment['bal_brought_fwd'], 2) }}
+                                                ₦{{ number_format($payment['bal_brought_fwd'], 2) }}
                                             @else
                                                 -
                                             @endif

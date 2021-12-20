@@ -7,6 +7,7 @@ use App\Models\Plaza;
 use App\Models\Shop;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class PlazaController extends Controller
 {
@@ -17,7 +18,7 @@ class PlazaController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(){
         $plazas = Plaza::withCount('shops')->with(['shops' => function($query){
@@ -30,7 +31,7 @@ class PlazaController extends Controller
     /**
      * Show the form for creating a new resource.o
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -42,7 +43,7 @@ class PlazaController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request){
         $request->validate([
@@ -64,17 +65,22 @@ class PlazaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Shop  $shop
-     * @return \Illuminate\Http\Response
+     * @param Plaza $plaza
+     * @return Response
      */
     public function show(Plaza $plaza){
         $shops = Shop::where('plaza_id', $plaza->id)->with(['plaza','latestPayment'])->orderBy('shop_number', 'asc')->paginate(100);
         // Paid Shop
         $paid_almost = Shop::where([['plaza_id', '=', $plaza->id],['next_payment', '>', Carbon::now()],
-            ['vacant_status', '=', '0']])->with(['plaza','latestPayment'])->orderBy('shop_number', 'asc')->paginate(50);
+            ['vacant_status', '=', '0']])->with(['plaza','payments' => function($query){
+                $query->where('next_payment', '>', Carbon::now());
+        }])->orderBy('shop_number', 'asc')->paginate(50);
         $amount =  0;
         foreach($paid_almost as $shop){
-            $amount += (float)$shop->latestPayment->amount;
+            foreach ($shop->payments as $payment){
+                $amount += (float)$payment->amount;
+            }
+
         }
 //        dd($shops[0]['latestPayment']['amount']);
         return view('plaza', ['plaza' => $plaza, 'shops' => $shops, 'amount' => $amount]);
@@ -84,7 +90,7 @@ class PlazaController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Plaza $plaza
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function paidPlaza(Plaza $plaza)
     {
@@ -130,7 +136,7 @@ class PlazaController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Shop  $plaza
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request)
     {
@@ -153,7 +159,7 @@ class PlazaController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Shop  $shop
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Shop $shop)
     {
