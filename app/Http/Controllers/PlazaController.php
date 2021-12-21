@@ -71,7 +71,7 @@ class PlazaController extends Controller
     public function show(Plaza $plaza){
         $shops = Shop::where('plaza_id', $plaza->id)->with(['plaza','latestPayment'])->orderBy('shop_number', 'asc')->paginate(100);
         // Paid Shop
-        $paid_almost = Shop::where([['plaza_id', '=', $plaza->id],['next_payment', '<', Carbon::now()->addMonth()],['next_payment', '>', Carbon::now()],
+        $paid_almost = Shop::where([['plaza_id', '=', $plaza->id],['next_payment', '>', Carbon::now()->addMonth()],['next_payment', '>', Carbon::now()],
             ['vacant_status', '=', '0']])->with(['plaza','payments' => function($query){
                 $query->where('next_payment', '>', Carbon::now());
         }])->orderBy('shop_number', 'asc')->paginate(50);
