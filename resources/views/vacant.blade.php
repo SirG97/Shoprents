@@ -8,8 +8,9 @@
             <div class="col-md-12">
                 <div class="custom-panel card py-2">
                     <div class="font-weight-bold text-secondary mb-1 py-3 px-3">
-                        <p>Exipired plaza shops</p>
+                        <p>Vacant shops</p>
                         <p>Plaza: {{ $plaza->name }}</p>
+                        <h5>Total  Vacant:<span class="text-danger"> {{$total_vacant}}</span></h5>
                         <div class="d-block btn-group no-print mt-2">
                             <a href="{{ url()->previous() }}" class="btn btn-secondary">Back</a>
                             <a href="#" onclick="window.print();return false;" class="btn btn-primary">Print</a>
@@ -65,7 +66,8 @@
 
                                         <td>{{ $shop['last_payment'] !== null ? $shop['last_payment']->toFormattedDateString() : '' }}</td>
                                         <td>{{ $shop['next_payment'] !== null ? $shop['next_payment']->toFormattedDateString() : ''}}</td>
-                                        <td class="no-print"><a href="/shop/{{ $shop['id'] }}" class="btn btn-sm btn-primary">View</a></td>
+                                        <td class="no-print">
+                                            <a href="/shop/{{ $shop['id'] }}" class="btn btn-sm btn-primary">View</a></td>
 
                                     </tr>
                                 @endforeach

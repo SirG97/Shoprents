@@ -22,7 +22,7 @@
                         Address: {{$plaza->address}}
                         <br>
                         <h3>Total  Revenue = <span class="text-danger"> &#8358  {{ number_format($amount) }}</span></h3>
-                        <h3>Total  Vacant<span class="text-danger"> {{$total_vacant}}</span></h3>
+                        <h3>Total  Vacant: <span class="text-danger"> {{$total_vacant}}</span></h3>
                         <div class="btn-group-sm mt-2 no-print">
                             <a href="/plaza/{{$plaza->id}}/paid" class="btn btn-success">Paid</a>
                             <a href="/plaza/{{$plaza->id}}/almostdue" class="btn btn-warning">Almost due</a>
@@ -42,7 +42,8 @@
                                 <th scope="col">Phone</th>
                                 <th scope="col">Last Payment</th>
                                 <th scope="col">Due by</th>
-                                <th scope="col" class="no-print">Action</th>
+                                <th scope="col" class="no-print">View</th>
+                                <th scope="col" class="no-print">Delete</th>
                             </tr>
                             </thead>
                             <tbody class="table-style">
@@ -76,6 +77,8 @@
                                         <td>{{ $shop['next_payment'] !== null ? $shop['next_payment']->toFormattedDateString() : ''}}</td>
                                         <td class="no-print">
                                             <a href="/shop/{{ $shop['id'] }}" class="btn btn-sm btn-primary">View</a>
+                                        </td>
+                                        <td class="no-print">
                                             <button type="submit"
                                                     class="btn btn-sm btn-danger"
                                                     data-toggle="modal"

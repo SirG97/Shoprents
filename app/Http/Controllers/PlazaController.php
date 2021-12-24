@@ -106,8 +106,8 @@ class PlazaController extends Controller
 
         public function vacantPlaza(Plaza $plaza){
             $shops = Shop::where([['plaza_id', '=', $plaza->id], ['vacant_status', '=', '1']])->with(['plaza','latestPayment'])->orderBy('shop_number', 'asc')->paginate(50);
-
-            return view('vacant',['shops' => $shops, 'plaza' => $plaza]);
+            $total_vacant = Shop::where([['vacant_status', '!=', '0'],['plaza_id','=', $plaza->id]])->count();
+            return view('vacant',['shops' => $shops, 'plaza' => $plaza,  'total_vacant' => $total_vacant]);
         }
 
     public function almostDuePlaza(Plaza $plaza){

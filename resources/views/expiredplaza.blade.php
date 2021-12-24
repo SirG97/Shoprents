@@ -8,7 +8,7 @@
             <div class="col-md-12">
                 <div class="custom-panel card py-2">
                     <div class="font-weight-bold text-secondary mb-1 py-3 px-3">
-                        <p>Exipired plaza shops</p>
+                        <p>Exipired shops</p>
                         <p>Plaza: {{ $plaza->name }}</p>
                         <h3>Expected Amount = <span class="text-danger">₦{{ number_format($amount) }}</span></h3>
                         <div class="btn-group no-print mt-2">
