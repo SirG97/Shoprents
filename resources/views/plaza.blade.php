@@ -22,6 +22,7 @@
                         Address: {{$plaza->address}}
                         <br>
                         <h3>Total  Revenue = <span class="text-danger"> &#8358  {{ number_format($amount) }}</span></h3>
+                        <h3>Total  Vacant<span class="text-danger"> {{$total_vacant}}</span></h3>
                         <div class="btn-group-sm mt-2 no-print">
                             <a href="/plaza/{{$plaza->id}}/paid" class="btn btn-success">Paid</a>
                             <a href="/plaza/{{$plaza->id}}/almostdue" class="btn btn-warning">Almost due</a>
