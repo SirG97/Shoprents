@@ -26,7 +26,7 @@
                             <a href="/plaza/{{$plaza->id}}/paid" class="btn btn-success">Paid</a>
                             <a href="/plaza/{{$plaza->id}}/almostdue" class="btn btn-warning">Almost due</a>
                             <a href="/plaza/{{$plaza->id}}/expired" class="btn btn-danger">Expired</a>
-                            <a href="/plaza/{{$plaza->id}}/vacant" class="btn btn-info">Vacant</a>
+                            <a href="/plaza/{{$plaza->id}}/vacant" class="btn btn-info">Vacant <span class="badge badge-danger">{{$total_vacant}}</span></a>
                             <a href="{{ url()->previous() }}" class="btn btn-secondary">Back</a>
                         </div>
                     </div>
